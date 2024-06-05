@@ -59,7 +59,7 @@ body {
 
 /*header section*/
 .hero_area {
-  background-image: url(../images/header.jpg);
+  background-image: url(header.jpg);
   background-size: cover;
   
 }
