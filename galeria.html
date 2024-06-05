@@ -95,10 +95,11 @@
   <div class="container">
     <div class="row">
       <div class="col-12">
-        
-        <h2 class="heading_container"> <b>Galería</b> </h2> <br>
-      </div>
-    </div>
+        <div class="heading_container">
+        <h2> <b>Galería</b> </h2> <br>
+        </div><br><br>
+      </div> 
+    
     <div class="row">
       <div class="col-lg-4 col-md-6">
         <div class="gallery_item">
@@ -135,6 +136,16 @@
           <img src="images/galeria7.jpg" alt="Gallery Image 6">
         </div>
       </div>
+      <div class="col-lg-4 col-md-6">
+        <div class="gallery_item">
+          <img src="images/galeria8.jpg" alt="Gallery Image 6">
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6">
+        <div class="gallery_item">
+          <img src="images/galeria9.jpeg" alt="Gallery Image 6">
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -157,7 +168,7 @@
               <img src="images/phone.png" width="18px" alt="" />
             </div>
             <p>
-              <a href="mailto: +52 221717320" id="numero"> +52 2221717320  </a>			
+              <a href="http://wa.me/522221717320/" id="numero"> <u> +52 2221717320 </u> </a>			
             </p>
           </div> 
         </div>
@@ -221,6 +232,17 @@
       1000: {
         items: 3
       }
+    }
+  });
+
+  ScrollReveal().reveal('.img-box img', {
+    origin: 'bottom',
+    distance: '100px',
+    duration: 1000,
+    easing: 'ease-out',
+    reset: false,
+    beforeReveal: function (el) {
+      el.classList.add('visible');
     }
   });
 
