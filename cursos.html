@@ -11,18 +11,68 @@
 
   <title>BUSINESS &amp; LIFE COACHING</title>
 
-<link rel="stylesheet" type="text/css"
+  <link rel="stylesheet" type="text/css"
     href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
-<link rel="stylesheet" type="text/css" href="bootstrap.css" />
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
   <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet" />
-  <link href="style.css" rel="stylesheet" />
-  <link href="responsive.css" rel="stylesheet" />
-  <script src="scrollreveal.js"> </script>
-  <link rel="shortcut icon" href="icono.png" />
-  
+  <link href="css/style.css" rel="stylesheet" />
+  <link href="css/responsive.css" rel="stylesheet" />
+  <script src="js/scrollreveal.js"> </script>
+  <link rel="shortcut icon" href="images/icono.png" />
 
+  <style>
+    /* Estilo para la lista desplegable */
+    details {
+      background-color: #f5f5f5;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 10px;
+      margin-bottom: 10px;
+      cursor: pointer;
+    }
 
+    details[open] {
+      background-color: #eaeaea;
+    }
 
+    summary {
+      font-size: 1.2em;
+      font-weight: bold;
+      color: #333;
+      padding: 5px 0;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    details summary:after {
+      content: '▼';
+      float: right;
+      font-size: 1em;
+      transition: transform 0.2s ease-in-out;
+    }
+
+    details[open] summary:after {
+      transform: rotate(-180deg);
+    }
+
+    details ul {
+      list-style-type: disc;
+      padding-left: 20px;
+      margin-top: 10px;
+    }
+
+    details li {
+      padding: 5px 0;
+      color: #555;
+    }
+
+    details li:hover {
+      color: #007bff;
+      cursor: pointer;
+    }
+  </style>
 </head>
 
 <body>
@@ -30,9 +80,9 @@
     <header class="header_section">
       <div class="container-fluid">
         <nav class="navbar navbar-expand-lg custom_nav-container ">
-				<span> <a href="index.html">
- <img src="Título.png" width="200px" height="80px">
-     </a></span> 
+          <span> <a href="index.html">
+              <img src="images/Título.png" width="200px" height="80px">
+            </a></span>
 
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,106 +92,133 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <div class="d-flex ml-auto flex-column flex-lg-row align-items-center">
               <ul class="navbar-nav  ">
-
-            
                 <li class="nav-item active">
                   <a class="nav-link" href="how.html"> Cursos </a>
                 </li>
-                 <li class="nav-item">
+                <li class="nav-item">
                   <a class="nav-link" href="galeria.html"> Galeria </a>
                 </li>
-				   <li class="nav-item">
-                  <a class="nav-link" href="how.html"> Servicios  </a>
-                </li>    
-				<li class="nav-item ">
+                <li class="nav-item">
+                  <a class="nav-link" href="how.html"> Servicios </a>
+                </li>
+                <li class="nav-item ">
                   <a class="nav-link" href="about.html"> Acerca de </a>
                 </li>
-        <li class="nav-item ">
+                <li class="nav-item ">
                   <a class="nav-link" href="contactanos.html"> Contáctanos </a>
-                </li>        
-       
-             
-         
+                </li>
               </ul>
-
             </div>
           </div>
         </nav>
       </div>
     </header>
-
   </div> <br>
-  
-    <section class="how_section layout_padding">
+
+  <section class="how_section layout_padding">
     <div class="heading_container">
       <h2>
-               Programas registrados ante STPS
-
+        Programas registrados ante STPS
       </h2>
-    </div> <br>
-  
+    </div> 
+    <br>
 
+    <section class="lista_desplegable">
+      <!-- Estilo para cada detalle desplegable -->
+      <details>
+        <summary>Liderazgo</summary>
+        <ul>
+          <li>Gestión de equipos de alto rendimiento</li>
+          <li>Liderazgo situacional</li>
+          <li>Desarrollo de habilidades de liderazgo</li>
+          <li>Motivación y coaching de equipos</li>
+        </ul>
+      </details> <br>
 
+      <details>
+        <summary>Coaching y supervisión</summary>
+        <ul>
+          <li>Coaching ejecutivo</li>
+          <li>Supervisión efectiva</li>
+          <li>Desarrollo de mentores internos</li>
+          <li>Habilidades de retroalimentación</li>
+        </ul>
+      </details> <br>
 
-  
-<br><br><br><br>
-	
+      <details>
+        <summary>Desarrollo integral en la empresa</summary>
+        <ul>
+          <li>Cultura organizacional</li>
+          <li>Trabajo en equipo y colaboración</li>
+          <li>Gestión del cambio</li>
+          <li>Formación en habilidades blandas</li>
+        </ul>
+      </details> <br>
 
-<section class="info_section layout_padding">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-3">
-        <div class="info_contact">           
-          <div>
-            <div class="img-box">
-              <img src="location.png" width="18px" alt="" />
-            </div> 
-            <p>  
-              Puebla, México
-          </p>
-          </div>
-          <div>
-            <div class="img-box">
-              <img src="phone.png" width="18px" alt="" />
+      <details>
+        <summary>Ventas y servicio al cliente</summary>
+        <ul>
+          <li>Estrategias de ventas efectivas</li>
+          <li>Atención al cliente y fidelización</li>
+          <li>Negociación y cierre de ventas</li>
+          <li>Comunicación efectiva con clientes</li>
+        </ul>
+      </details>
+    </section>
+
+    <br><br><br><br>
+  </section>
+
+  <section class="info_section layout_padding">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3">
+          <div class="info_contact">
+            <div>
+              <div class="img-box">
+                <img src="images/location.png" width="18px" alt="" />
+              </div>
+              <p>
+                Puebla, México
+              </p>
             </div>
-            <p>
-              <a href="http://wa.me/522221717320/" id="numero"> <u> +52 2221717320 </u> </a>			
-            </p>
-          </div> 
+            <div>
+              <div class="img-box">
+                <img src="images/phone.png" width="18px" alt="" />
+              </div>
+              <p>
+                <a href="http://wa.me/522221717320/" id="numero"> <u> +52 2221717320 </u> </a>
+              </p>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="col-md-3">
-        <div class="info_links">
-         <h6> Redes sociales</h6>
-          <div class="img-box">
-            <img src="face.png" width="30px" alt="" />
-            <img src="instagram.png" width="30px" alt="" />
-            <img src="indeed.png" width="30px" alt="" />
-          </div> <br>
-          <div class="img-box">
-            
+        <div class="col-md-3">
+          <div class="info_links">
+            <h6> Redes sociales</h6>
+            <div class="img-box">
+              <img src="images/face.png" width="30px" alt="" />
+              <a href="https://www.instagram.com/maribelcoach100/"> <img src="images/instagram.png" width="30px" alt="" /> </a>
+              <img src="images/indeed.png" width="30px" alt="" />
+            </div> <br>
+            <div class="img-box">
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="info_info">
+            <h6>
+              <a href="" id="numero"> <u> Política de privacidad</u> </a>
+            </h6>
+            <p>
+            <h6>
+              <a href="" id="numero"> <u> Términos y condiciones </u></a>
+            </h6>
+            </p>
           </div>
         </div>
       </div>
-      <div class="col-md-3">
-        <div class="info_info">
-          <h6>
-            <a href="" id="numero" > <u>  Política de privacidad</u> </a>
-          </h6>
-          <p>
-            <h6>
-              <a href="" id="numero" > <u>  Términos y condiciones </u></a>                 
-            </h6>
-          </p>  
-
-        </div>
-      </div>
-
-      
     </div>
-  </div>
-</section>
-
+  </section>
 
   <section class="container-fluid footer_section">
     <p>
@@ -150,8 +227,8 @@
     </p>
   </section>
 
-  <script type="text/javascript" src="jquery-3.4.1.min.js"></script>
-  <script type="text/javascript" src="bootstrap.js"></script>
+  <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+  <script type="text/javascript" src="js/bootstrap.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js">
   </script>
 
@@ -204,8 +281,8 @@
         el.classList.add('visible');
       }
     });
-
   </script>
 
 </body>
+
 </html>
