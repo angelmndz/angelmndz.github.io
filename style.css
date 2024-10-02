@@ -353,6 +353,7 @@ a:focus {
 
 .how_section .how_container .box .detail-box p {
   color: #b8b8b8;
+  text-align: left;
 }
 
 .how_section .how_container .box:hover .img-box {
