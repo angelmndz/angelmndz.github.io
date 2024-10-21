@@ -308,6 +308,18 @@
       }
     });
 
+    ScrollReveal().reveal('.lista_desplegable', {
+      origin: 'bottom',
+      distance: '100px',
+      duration: 1000,
+      easing: 'ease-out',
+      reset: false,
+      beforeReveal: function (el) {
+        el.classList.add('visible');
+      }
+    });
+
+
   </script>
 
 </body>
