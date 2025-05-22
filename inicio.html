@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Inicio</title>
+  <link rel="stylesheet" href="css/inicio.css" />
+  <link rel="shortcut icon" href="img/Ducati_logo.png" type="image/x-icon" />
+</head>
+<body>
+  <header>
+   <a>
+  <img src="img/logo-marcas.png" alt="Ducati Logo" />
+</a>
+
+    <a href="carrito.html">
+        <div class="cart-icon">
+      <img src="https://cdn-icons-png.flaticon.com/512/1170/1170576.png" alt="Carrito">
+      <div class="cart-count" id="cart-count">0</div>
+    </div></a>
+  </header> 
+
+  <nav class="horizontal-menu">
+    <div class="menu-links">
+      <a href="inicio.html">Inicio</a>
+      <a href="catalogo.html">Catálogo</a>
+      <a href="promocion.html">Bases de la promoción</a>
+    <a href="index.html" onclick="return cerrarSesion()">Cerrar sesión</a>
+    </div>
+  </nav>
+
+  <div class="banner">
+    <img src="img/banner-img-removebg-preview.png" alt="Banner Carrera" />
+  </div>
+
+ 
+
+  <div class="content">
+    <div class="user-greeting">
+      <p>Hola <strong id="username"></strong></p>
+    </div>
+
+    <h3>REGISTRA TU CÓDIGO</h3>
+    <div class="code-inputs">
+      <input type="text" maxlength="1" pattern="[A-Za-z0-9]" />
+      <input type="text" maxlength="1" pattern="[A-Za-z0-9]" />
+      <input type="text" maxlength="1" pattern="[A-Za-z0-9]" />
+      <input type="text" maxlength="1" pattern="[A-Za-z0-9]" />
+      <input type="text" maxlength="1" pattern="[A-Za-z0-9]" />
+      <input type="text" maxlength="1" pattern="[A-Za-z0-9]" />
+      <input type="text" maxlength="1" pattern="[A-Za-z0-9]" />
+      <input type="text" maxlength="1" pattern="[A-Za-z0-9]" />
+    </div>
+
+    <select id="store-select">
+      <option selected disabled>Tienda de compra</option>
+      <option value="Liverpool">Liverpool</option>
+      <option value="Ópticas Devlyn">Ópticas Devlyn</option>
+    </select>
+    <br />
+    <button id="register-btn">REGISTRAR</button>
+
+    <div class="stats">
+      <div class="box">
+        <small>PUNTAJE</small>
+        <h1 id="points">0</h1>
+        <p>puntos</p>
+      </div>
+      <div class="box">
+        <small>RANKING</small>
+        <h1 id="ranking">-</h1>
+        <p>Tu posición es</p>
+      </div>
+    </div>
+
+    <div class="code-table">
+      <h4>CÓDIGOS REGISTRADOS</h4>
+      <table>
+        <thead>
+          <tr>
+            <th>Fecha</th>
+            <th>Código</th>
+            <th>Puntos totales</th>
+            <th>Puntos por código</th>
+          </tr>
+        </thead>
+        <tbody id="codes-table-body">
+          <tr>
+            <td colspan="5" style="text-align: center;">No hay registros todavía</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 Carrera & Ducati. Todos los derechos reservados.</p>
+    <p>
+      <a href="politica.html">Política de privacidad</a> |
+      <a href="terminos.html">Términos y condiciones</a> |
+    </p>
+  </footer>
+
+    <script src="js/inicio.js"></script>
+      <script src="js/carrito.js"></script>
+
+
+
+
+
+</body>
+</html>

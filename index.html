@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Acceso</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="shortcut icon" href="img/Ducati_logo.png" type="image/x-icon">
+  
+</head>
+<body>
+  <div class="container">
+    <div class="left-panel">
+      <img src="img/logo-marcas.png" alt="Carrera Logo">
+      <img src="img/slogan.png" alt="Slogan Carrera">
+    </div>
+    <div class="right-panel">
+      <h2>INICIO DE SESIÓN</h2>
+      <div class="form-group">
+        <input type="email" id="email" placeholder="Correo Electrónico" />
+      </div>
+      <div class="form-group">
+        <input type="password" id="password" placeholder="Contraseña" />
+      </div>
+      <div class="form-actions"> 
+        <a href="#" id="forgotLink">¿Olvidaste tu contraseña?</a> 
+      </div>
+      <div>
+       
+      </div>
+      <button id="loginBtn">INGRESAR</button> <br>
+      <button id="loginBtnInvitado" onclick="return accedeInvitado()">ACCEDE COMO INVITADO</button>
+
+      <div class="register">
+        ¿Aún no tienes una cuenta? <a href="registro.html">Regístrate</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="recoveryModal">
+    <div class="modal-content">
+      <h3>Recuperar Contraseña</h3>
+      <input type="text" id="recoverInput" placeholder="Correo electrónico o usuario" style="width: 95%; padding: 8px; margin: 10px 0;"> 
+      <button id="recoverBtn" style="margin-bottom: 10px;">Recuperar</button>
+      <button onclick="closeModal()">Cancelar</button>
+    </div>
+  </div>
+
+<script type="text/javascript" src="js/indexjs.js"> </script>
+
+
+</body>
+</html>
