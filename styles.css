@@ -1,0 +1,248 @@
+/* Variables para colores */
+:root {
+    --primary-color: #0d6efd; /* Azul principal */
+    --text-color-dark: #333;
+    --text-color-light: #fff;
+    --card-bg-color: #fff;
+    --border-color: #e0e0e0;
+    --tag-color: #dc3545; /* Rojo para Próximo Mantenimiento */
+    --background-color: #f4f7f6; /* Fondo gris muy claro */
+    --padding-base: 15px;
+}
+
+/* Base, tipografía y reseteo */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* AJUSTE CRÍTICO: El body ocupa 100% del viewport */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--background-color);
+    min-height: 100vh;
+    width: 100vw;
+    overflow-x: hidden; /* Evita el scroll horizontal */
+    display: flex;
+    justify-content: center;
+}
+
+/* Contenedor principal de la app (Utiliza Flexbox para layout completo) */
+.app-container {
+    width: 100%;
+    max-width: 650px; 
+    background-color: var(--card-bg-color);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; 
+    /* Quitamos sombra en móvil para un diseño más limpio */
+    box-shadow: none; 
+}
+
+/* Encabezado */
+.header {
+    background-color: var(--primary-color);
+    color: var(--text-color-light);
+    /* Ajuste de padding para un estilo más limpio en el header */
+    padding: 20px var(--padding-base);
+    text-align: left; /* Alineamos a la izquierda como en la imagen */
+    flex-shrink: 0; 
+}
+
+.header .title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 2px; /* Reducimos el margen */
+}
+
+.header .subtitle {
+    font-size: 0.9rem;
+    opacity: 0.9;
+    font-weight: 400; /* Aseguramos fuente normal */
+}
+
+/* Contenido Principal */
+.content {
+    flex-grow: 1; 
+    background-color: var(--background-color); /* Fondo gris claro */
+    padding: var(--padding-base);
+    overflow-y: auto; 
+}
+
+/* Pie de la aplicación (Footer) */
+.app-footer {
+    flex-shrink: 0; 
+    padding: var(--padding-base);
+    background-color: var(--background-color); /* Fondo gris claro para integrar con el body */
+    border-top: none; /* Quitamos la línea divisoria */
+}
+
+/* Cabecera de sección (Mis Vehículos) */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end; /* Alineamos los textos de arriba a abajo */
+    margin-top: 5px; /* Pequeño espacio superior para separarse del header */
+    margin-bottom: 20px;
+    padding: 0 5px; /* Ligero padding horizontal */
+}
+
+.section-title {
+    font-size: 1.15rem; /* Título un poco más pequeño */
+    font-weight: 500;
+    color: var(--text-color-dark);
+}
+
+.registration-count {
+    font-size: 0.85rem;
+    color: #999; /* Tono de gris más claro */
+    font-weight: 400;
+}
+
+/* Lista de vehículos */
+.vehicle-list {
+    margin-bottom: 0;
+}
+
+/* Tarjeta de Vehículo */
+.vehicle-card {
+    display: flex;
+    align-items: flex-start; /* Alineamos el contenido al inicio de la tarjeta */
+    background-color: var(--card-bg-color);
+    border: none; /* Eliminamos el borde */
+    border-radius: 12px; /* Bordes más pronunciados */
+    padding: 18px var(--padding-base); /* Ajustamos el padding */
+    margin-bottom: var(--padding-base);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); /* Sombra suave, clave para el diseño */
+    cursor: pointer;
+    transition: box-shadow 0.2s, transform 0.1s;
+}
+
+.vehicle-card:active {
+    transform: translateY(1px);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+.vehicle-info-left {
+    background-color: #ebf5ff; /* Azul muy claro */
+    border-radius: 8px; /* Cuadrado con bordes redondeados */
+    width: 55px;
+    height: 55px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: var(--padding-base);
+    flex-shrink: 0;
+}
+
+.vehicle-icon {
+    font-size: 26px;
+    color: var(--primary-color);
+}
+
+.vehicle-details {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.vehicle-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.vehicle-name {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-color-dark);
+}
+
+.vehicle-model-plate {
+    font-size: 0.8rem;
+    color: #6c757d;
+    margin-bottom: 8px; /* Más espacio */
+}
+
+.vehicle-mileage {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #6c757d; /* Mismo color que el modelo/placa para un look más limpio */
+    margin-bottom: 0px;
+    display: inline-block;
+}
+
+.arrow {
+    color: #adb5bd;
+    font-size: 28px;
+    flex-shrink: 0;
+    margin-left: 10px; /* Separación de los detalles */
+}
+
+/* Etiquetas de Mantenimiento */
+.maintenance-tag {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 500; /* Menos negrita */
+    text-transform: none; /* Sin mayúsculas */
+    color: var(--text-color-light);
+    margin-top: 0;
+    margin-left: 10px; /* Separación del kilometraje */
+}
+
+.next-maintenance {
+    background-color: var(--tag-color); /* Rojo fuerte */
+}
+
+/* Botón Agregar Vehículo */
+.add-vehicle-btn {
+    width: 100%;
+    background-color: var(--primary-color);
+    color: var(--text-color-light);
+    border: none;
+    border-radius: 8px;
+    padding: 15px 20px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    transition: background-color 0.2s, transform 0.1s;
+    -webkit-appearance: none;
+    box-shadow: 0 4px 10px rgba(13, 110, 253, 0.3); /* Sombra de color para el botón */
+}
+
+.add-vehicle-btn:hover {
+    background-color: #0b5ed7;
+}
+
+.add-vehicle-btn:active {
+    transform: scale(0.99);
+}
+
+.add-vehicle-btn .material-icons {
+    font-size: 20px;
+}
+
+/* MEDIA QUERY para Pantallas Grandes (Escritorio/Tablet) */
+@media (min-width: 650px) {
+    body {
+        align-items: center; 
+        background-color: #e0e0e0;
+    }
+    .app-container {
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        max-height: 90vh; 
+        min-height: auto;
+    }
+    .content {
+        max-height: calc(90vh - 120px); 
+    }
+}
