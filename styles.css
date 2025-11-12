@@ -1,135 +1,142 @@
-    :root {
-      --primary-color: #0d6efd;
-      --text-color-dark: #333;
-      --text-color-light: #fff;
-      --card-bg-color: #fff;
-      --border-color: #e0e0e0;
-      --tag-color: #dc3545;
-      --background-color: #f4f7f6;
-      --padding-base: 15px;
-      --glass-bg: rgba(255, 255, 255, 0.92);
-      --footer-height: 72px;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { height: 100%; width: 100%; }
-    body {
-      font-family: 'Roboto', sans-serif;
-      background: var(--background-color);
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      display: block;
-    }
-    header.hero-header {
-      width: 100%;
-      background: linear-gradient(180deg, var(--primary-color) 0%, #0b5ed7 60%);
-      color: var(--text-color-light);
-      padding-bottom: 48px; /* espacio para separación */
-    }
-    .hero-top {
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      padding: calc(var(--padding-base) * 2) calc(var(--padding-base) * 1.5) 14px calc(var(--padding-base) * 1.5);
-    }
-    .hero-title {
-      font-size: 2.1rem;
-      font-weight: 700;
-      line-height: 1.125;
-      letter-spacing: -1px;
-    }
-    .hero-subtitle {
-      font-size: 1.05rem;
-      opacity: 0.93;
-      margin-top: 4px;
-      letter-spacing: 0.2px;
-    }
+        /* Variables y Estilos Generales */
+        :root {
+            --blue-primary: #1e88e5; /* Un azul de Google Material */
+            --blue-dark: #1565c0;
+            --text-color: #333;
+            --bg-color: #f5f5f5;
+            --white-color: #fff;
+            --shadow-light: 0 2px 4px rgba(0, 0, 0, 0.1);
+            --font-family: 'Roboto', sans-serif;
+        }
 
-    .panel {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-top: -24px;
-    }
-    .panel-inner {
-      background: var(--glass-bg);
-      border-radius: 18px;
-      box-shadow: 0 8px 32px rgba(13, 110, 253, 0.13);
-      padding: 20px;
-      width: 100%;
-      max-width: 620px;
-      min-height: 380px;
-      margin: 0 auto;
-      margin-bottom: 92px;
-      position: relative;
-      z-index: 2;
-    }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-    .section-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      margin-bottom: 12px;
-    }
-    .section-title { font-size: 1.18rem; font-weight: 600; color: var(--text-color-dark) }
-    .registration-count { font-size: 0.9rem; color: #666 }
-    .vehicle-list { display: flex; flex-direction: column; gap: 14px; }
-    .vehicle-card {
-      display: flex;
-      gap: 12px;
-      align-items: flex-start;
-      padding: 15px;
-      border-radius: 12px;
-      background: linear-gradient(180deg,#fff,#fbfdff);
-      box-shadow: 0 3px 12px rgba(13,110,253,0.09);
-      cursor: pointer;
-      border: 1px solid rgba(0,0,0,0.02);
-    }
-    .vehicle-info-left {
-      width: 56px; height: 56px; border-radius: 10px;
-      background: #ebf5ff; display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
-    }
-    .vehicle-icon { font-size: 26px; color: var(--primary-color) }
-    .vehicle-details { flex: 1; display: flex; flex-direction: column }
-    .vehicle-header { display: flex; justify-content: space-between; align-items: center }
-    .vehicle-name { font-weight: 600; color: var(--text-color-dark) }
-    .vehicle-model-plate, .vehicle-mileage { font-size: 0.93rem; color: #6c757d }
-    .maintenance-tag { display: inline-block; padding: 4px 8px; border-radius: 6px; font-weight: 600; font-size: .80rem; color: var(--text-color-light); margin-top: 8px }
-    .next-maintenance { background: var(--tag-color) }
-    .floating-footer {
-      position: fixed;
-      left: 50%;
-      transform: translateX(-50%);
-      bottom: 18px;
-      width: min(640px, calc(100% - 32px));
-      height: var(--footer-height);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 1200;
-      pointer-events: auto;
-    }
-    .add-vehicle-btn {
-      width: 100%;
-      height: 100%;
-      background: var(--primary-color);
-      color: var(--text-color-light);
-      border: none; border-radius: 12px;
-      display: flex; align-items: center; justify-content: center;
-      gap: 12px; padding: 12px 20px; font-weight: 600; font-size: 1rem;
-      box-shadow: 0 12px 30px rgba(13, 110, 253, 0.22);
-      cursor: pointer;
-    }
-    .add-vehicle-btn:active { transform: translateY(1px) }
-    /* Responsive adjustments */
-    @media (min-width: 900px) {
-      .panel-inner { width: calc(100% - 80px); margin-left: 40px; margin-right: 40px; }
-      .hero-title { font-size: 2.3rem }
-    }
-    @media (max-width: 620px) {
-      .panel-inner { max-width: 99vw; padding: 10px; }
-      .floating-footer { width: 97vw; }
-    }
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        /* 1. Encabezado (Header) */
+        .header {
+            background-color: var(--blue-primary);
+            color: var(--white-color);
+            padding: 15px 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            font-size: 1.5rem;
+            font-weight: 500;
+        }
+
+        .header p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* 2. Contenido Principal */
+        .main-content {
+            padding: 20px;
+            max-width: 1200px; /* Ancho máximo para escritorio */
+            margin: 0 auto;
+        }
+
+        /* 3. Barra de Acciones y Título */
+        .action-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap; /* Para que se adapte mejor en móvil */
+            gap: 15px;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        /* 4. Botón Agregar Vehículo */
+        .add-vehicle-btn {
+            background-color: var(--blue-primary);
+            color: var(--white-color);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background-color 0.2s;
+            box-shadow: var(--shadow-light);
+        }
+
+        .add-vehicle-btn:hover {
+            background-color: var(--blue-dark);
+        }
+
+        /* 5. Contenedor Dinámico (donde irán los vehículos) */
+        .vehicles-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px; /* Espacio entre las tarjetas */
+            justify-content: flex-start; /* Alinea al inicio */
+        }
+
+        .info-message {
+            padding: 20px;
+            background-color: var(--white-color);
+            border-radius: 8px;
+            box-shadow: var(--shadow-light);
+            text-align: center;
+            width: 100%;
+            margin-top: 20px;
+            font-style: italic;
+            color: #666;
+        }
+
+        /* ------------------------------------- */
+        /* Media Queries para Responsividad */
+        /* ------------------------------------- */
+
+        /* Teléfonos (hasta 600px) */
+        @media (max-width: 600px) {
+            .header h1 {
+                font-size: 1.3rem;
+            }
+
+            .main-content {
+                padding: 10px;
+            }
+
+            .action-bar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .add-vehicle-btn {
+                width: 100%; /* El botón ocupa todo el ancho */
+                justify-content: center;
+                margin-top: 10px;
+            }
+        }
+
+        /* Tabletas (601px a 1024px) */
+        @media (min-width: 601px) and (max-width: 1024px) {
+            .vehicles-container {
+                justify-content: space-around; /* Distribuye las tarjetas */
+            }
+        }
