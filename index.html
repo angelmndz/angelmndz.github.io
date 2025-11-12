@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>DriveControl - Control de Mantenimiento Vehicular</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js"></script>
+</head>
+<body>
+  <header class="hero-header" role="banner">
+    <div class="hero-top" aria-hidden="true">
+      <div>
+        <div class="hero-title">DriveControl</div>
+        <div class="hero-subtitle">Control de Mantenimiento Vehicular</div>
+      </div>
+      <div style="opacity: 0.9; color: rgba(255,255,255,0.95)"></div>
+    </div>
+  </header>
+  <!-- Panel principal con lista -->
+  <div class="panel" role="main">
+    <div class="panel-inner" id="panel-inner">
+      <div class="section-header">
+        <h2 class="section-title">Mis Vehículos</h2>
+        <span class="registration-count">2 registrados</span>
+      </div>
+      <div id="vehicle-list" class="vehicle-list">
+        <div class="vehicle-card" data-vehicle-id="1">
+          <div class="vehicle-info-left"><span class="material-icons vehicle-icon">directions_car</span></div>
+          <div class="vehicle-details">
+            <div class="vehicle-header">
+              <h3 class="vehicle-name">Honda Civic</h3>
+              <span class="material-icons" aria-hidden="true">chevron_right</span>
+            </div>
+            <p class="vehicle-model-plate">2020 • ABC-123</p>
+            <p class="vehicle-mileage">24.500 km</p>
+            <span class="maintenance-tag next-maintenance">Próximo: 25.000 km</span>
+          </div>
+        </div>
+        <div class="vehicle-card" data-vehicle-id="2">
+          <div class="vehicle-info-left"><span class="material-icons vehicle-icon">two_wheeler</span></div>
+          <div class="vehicle-details">
+            <div class="vehicle-header">
+              <h3 class="vehicle-name">Yamaha FZ 150</h3>
+              <span class="material-icons" aria-hidden="true">chevron_right</span>
+            </div>
+            <p class="vehicle-model-plate">2019 • XYZ-456</p>
+            <p class="vehicle-mileage">7.800 km</p>
+            <span class="maintenance-tag next-maintenance">Próximo: 8.000 km</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Footer flotante: siempre visible encima del contenido -->
+  <div class="floating-footer" aria-hidden="false">
+    <button class="add-vehicle-btn" id="add-vehicle-btn">
+      <span class="material-icons">add_circle_outline</span>
+      Agregar Vehículo
+    </button>
+  </div>
+</body>
+</html>
