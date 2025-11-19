@@ -1,0 +1,517 @@
+/* Definición de variables base */
+:root {
+    --blue-primary: #007bff; /* Color principal */
+    --white: #ffffff;
+    --shadow-light: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* ===================== HEADER ===================== */
+.header {
+    background-color: var(--blue-primary); 
+    color: var(--white);
+    padding: 15px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: var(--shadow-light);
+}
+
+.header-left h1 {
+    font-size: 1.6rem;
+    margin: 0;
+}
+
+.header-left p {
+    font-size: 0.9rem;
+    margin-top: -3px;
+    opacity: 0.85;
+}
+
+/* Usuario y Botón */
+.header-right {
+    display: flex;
+    align-items: center;
+}
+
+.user-email {
+    margin-right: 15px;
+    font-size: 0.95rem;
+}
+
+.logout-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background-color: rgba(255,255,255,0.15);
+    color: var(--white);
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    backdrop-filter: blur(3px);
+    transition: background 0.2s ease;
+}
+
+.logout-btn:hover {
+    background-color: rgba(255,255,255,0.25);
+}
+
+/* RESPONSIVE: HEADER (Móviles pequeños y medianos) */
+@media (max-width: 650px) {
+    .header {
+        /* Permite que los elementos se envuelvan si no caben */
+        flex-wrap: wrap; 
+        padding: 15px 15px;
+    }
+    
+    .header-left {
+        /* Asegura que el título ocupe todo el ancho si es necesario */
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    
+    .header-right {
+        /* Ocupa todo el ancho para que el email y el botón se separen */
+        width: 100%;
+        justify-content: space-between; 
+        /* Reducimos el margen para que no haya desborde */
+        margin-right: 0; 
+    }
+
+    .user-email {
+        /* Eliminamos el margen derecho excesivo */
+        margin-right: 10px;
+        /* Hacemos el texto más pequeño para móviles */
+        font-size: 0.85rem; 
+        /* Ocultamos si la pantalla es muy pequeña para solo mostrar el botón */
+        max-width: 50%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}
+
+
+/* ===================== MODAL ===================== */
+
+/* Contenedor principal y fondo oscuro/desenfocado */
+.modal-overlay {
+    display: none; 
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5); 
+    backdrop-filter: blur(3px);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-overlay.active {
+    display: flex; 
+}
+
+/* La caja blanca del formulario */
+.modal {
+    background: #fff;
+    border-radius: 8px;
+    /* Usa un ancho porcentual con un máximo */
+    width: 90%;
+    max-width: 500px; 
+    box-shadow: 0 8px 30px rgba(0,0,0,0.3); 
+    overflow: hidden;
+    max-height: 90vh; 
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-header {
+    flex-shrink: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 25px;
+    border-bottom: 1px solid #eee;
+    background-color: var(--white); 
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: 1.4rem;
+    color: #333;
+}
+
+.modal-close {
+    font-size: 1.8rem;
+    cursor: pointer;
+    color: #aaa;
+    transition: color 0.2s;
+}
+
+.modal-close:hover {
+    color: #000;
+}
+
+/* El formulario en sí */
+.modal-form {
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto; 
+    flex-grow: 1;
+}
+
+.modal-form label {
+    font-weight: 500;
+    margin-top: 15px; 
+    margin-bottom: 5px;
+    font-size: 0.95rem;
+    color: #333; 
+}
+
+.modal-form input[type="text"],
+.modal-form input[type="number"] {
+    padding: 10px 15px; 
+    border: 1px solid #ddd;
+    border-radius: 6px; 
+    font-size: 1rem;
+    color: #555;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.modal-form input:focus {
+    outline: none;
+    border-color: var(--blue-primary);
+    box-shadow: 0 0 0 1px var(--blue-primary);
+}
+
+/* Fila para Año y Placas */
+.form-row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 10px; 
+}
+
+.form-row > div {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-row label {
+     margin-top: 0; 
+}
+
+/* RESPONSIVE: FORMULARIO MODAL (Para pantallas donde el modal es estrecho) */
+@media (max-width: 400px) {
+    .modal {
+        /* Asegura que el modal ocupe casi todo el ancho disponible */
+        width: 95%;
+    }
+    
+    .modal-header, .modal-actions {
+        /* Reducimos el padding en pantallas muy pequeñas */
+        padding: 15px 15px;
+    }
+
+    .modal-form {
+        padding: 15px;
+    }
+    
+    .form-row {
+        /* Los campos que estaban en fila (Año, Placas) se apilan */
+        flex-direction: column; 
+        gap: 0;
+    }
+    
+    /* Pequeño ajuste en botones para pantallas muy pequeñas */
+    .btn-cancelar, .btn-guardar {
+        padding: 8px 15px;
+        font-size: 0.95rem;
+    }
+}
+ 
+/* Acciones de botón */
+.modal-actions {
+    flex-shrink: 0;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 0;
+    padding: 15px 25px;
+    border-top: 1px solid #eee; 
+    background-color: var(--white);
+}
+
+.btn-cancelar, .btn-guardar {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: background 0.2s ease;
+}
+
+.btn-cancelar {
+    background-color: #f0f0f0;
+    color: #555;
+}
+
+.btn-cancelar:hover {
+    background-color: #e0e0e0;
+}
+
+.btn-guardar {
+    background-color: var(--blue-primary); 
+    color: #fff;
+}
+
+.btn-guardar:hover {
+    background-color: #0056b3;
+}
+
+/* Estilos genéricos */
+.main-content { padding: 20px; max-width: 1200px; margin: auto; }
+.action-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.add-vehicle-btn { padding: 10px 15px; background: var(--blue-primary); color: white; border: none; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 5px;}
+.section-title { font-size: 1.8rem; color: #333; }
+.info-message { text-align: center; padding: 40px; background: #f9f9f9; border-radius: 8px; color: #777; }
+
+/* ===================== VEHICLE CARD V2 (Nuevo Diseño) ===================== */
+
+/* Contenedor principal de la lista */
+.vehicles-container {
+    /* Usar flexbox o grid para las tarjetas */
+    display: flex; 
+    flex-wrap: wrap; 
+    gap: 20px; /* Espacio entre las tarjetas */
+    justify-content: flex-start; /* Alinear a la izquierda */
+    padding: 10px;
+}
+
+/* Estilo de la tarjeta individual (Simulando la Chevrolet Aveo) */
+.vehicle-card-v2 {
+    /* Estilo de la caja principal */
+    background-color: var(--white);
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    border: 1px solid #ddd; /* Borde sutil */
+    padding: 20px;
+    
+    /* Adaptar el tamaño de la tarjeta para que se parezca al de la imagen */
+    width: 100%; /* Ocupar todo el ancho por defecto */
+    max-width: 600px; /* Ancho máximo para pantallas grandes */
+    min-height: 150px;
+    
+    /* Usar flexbox para centrar el contenido verticalmente y controlar la estructura interna */
+    display: flex; 
+    align-items: center; /* Centrado vertical */
+}
+
+/* Contenido dentro de la tarjeta */
+.card-content-v2 {
+    flex-grow: 1; /* Ocupa el espacio restante */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Título */
+.card-title-v2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #333;
+    margin: 0 0 5px 0;
+    text-transform: capitalize; /* Para asegurar el formato correcto */
+}
+
+/* Placas */
+.card-placas-v2 {
+    font-size: 1rem;
+    color: #555;
+    margin: 0 0 15px 0;
+    font-weight: 500;
+}
+
+/* Información Kilometraje y Registro */
+.card-info-v2 p {
+    margin: 5px 0;
+    font-size: 0.95rem;
+    color: #444;
+}
+
+.card-info-v2 strong {
+    font-weight: 700;
+    color: #333;
+}
+
+
+/* Acciones (botones) */
+.card-actions-v2 {
+    margin-top: 15px;
+    display: flex;
+    gap: 10px;
+}
+
+.btn-detail-v2, .btn-delete-v2 {
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+/* Botón "Ver Detalles" (Simula el botón gris y el borde) */
+.btn-detail-v2 {
+    background-color: var(--white);
+    color: #333;
+    border: 1px solid #ccc;
+}
+
+.btn-detail-v2:hover {
+    background-color: #f0f0f0;
+}
+
+/* Botón "Eliminar" (Simula el botón gris y el borde) */
+.btn-delete-v2 {
+    background-color: var(--white);
+    color: #e74c3c; /* Color rojo para Eliminar */
+    border: 1px solid #ccc;
+}
+
+.btn-delete-v2:hover {
+    background-color: #f0f0f0;
+    color: #c0392b;
+}
+
+/* Media Query para hacer la tarjeta más estrecha en móviles */
+@media (max-width: 650px) {
+    .vehicle-card-v2 {
+        padding: 15px;
+    }
+}
+
+/* ===================== VISTAS SPA ===================== */
+.hidden-view {
+    display: none !important;
+}
+.visible-view {
+    display: block;
+}
+
+/* ===================== VISTA DE MANTENIMIENTO ===================== */
+.maintenance-view {
+    padding: 20px;
+}
+
+.maintenance-header {
+    margin-bottom: 25px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.maintenance-vehicle-title {
+    /* Estilo del título, similar a la imagen */
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin: 0;
+}
+
+.maintenance-content-container {
+    display: flex;
+    gap: 30px;
+    /* Permite apilar en móviles */
+    flex-wrap: wrap; 
+}
+
+.maintenance-card {
+    background-color: var(--white);
+    border-radius: 8px;
+    box-shadow: var(--shadow-light);
+    border: 1px solid #ddd;
+    padding: 20px;
+}
+
+.card-subtitle {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #333;
+    margin: 0 0 15px 0;
+}
+
+/* Próximo Mantenimiento (Tarjeta izquierda) */
+.next-maintenance {
+    /* Similar al ancho de la imagen */
+    flex: 0 0 350px; 
+}
+
+/* Historial de Mantenimiento (Contenedor derecho) */
+.maintenance-history-wrapper {
+    flex-grow: 1; /* Ocupa el resto del espacio */
+    min-width: 400px; /* Ancho mínimo para que no se vea feo */
+}
+
+.maintenance-history-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.record-count {
+    color: #777;
+    font-size: 0.9rem;
+}
+
+.add-maintenance-btn {
+    background-color: var(--blue-primary); 
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.info-message-small {
+    text-align: center;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    color: #777;
+    font-size: 0.9rem;
+}
+
+/* Estilos para las tarjetas de Mantenimiento (Simulación) */
+.maintenance-record-card {
+    background-color: var(--white);
+    border: 1px solid #eee;
+    border-radius: 6px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+.maintenance-record-card h4 {
+    margin: 0 0 10px 0;
+    font-size: 1rem;
+    color: #007bff;
+    font-weight: 700;
+}
+.maintenance-record-card p {
+    margin: 3px 0;
+    font-size: 0.9rem;
+    color: #444;
+}
+
+/* RESPONSIVE: Mantenimiento */
+@media (max-width: 850px) {
+    .maintenance-content-container {
+        flex-direction: column; /* Apilar la tarjeta de próximo y el historial */
+    }
+    .next-maintenance, .maintenance-history-wrapper {
+        flex: 1 1 100%; /* Ocupar todo el ancho disponible */
+        min-width: unset;
+    }
+}

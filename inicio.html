@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DriveControl - Control de Mantenimiento Vehicular</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css"> 
+    <link rel="stylesheet" href="styleinicio.css">
+    <script src="script.js"></script>
+
+
+</head>
+<body>
+
+<header class="header">
+    <div class="header-left">
+        <h1>DriveControl</h1>
+        <p>Control de Mantenimiento Vehicular</p>
+    </div>
+
+    <div class="header-right">
+        <span id="userName" class="user-email"></span>
+        <button class="logout-btn" onclick="cerrarSesion()">
+            <span class="logout-icon">↪</span> Cerrar Sesión
+        </button>
+    </div>
+</header>
+
+
+
+<main class="main-content">
+<div class="action-bar">
+    <h2 class="section-title">Mis Vehículos</h2>
+<button class="add-vehicle-btn" onclick="openAddVehicleModal()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5v14"/></svg>
+            Agregar Vehículo
+</button>
+ </div>
+
+    <div class="vehicles-container" id="vehicles-list">
+         <p class="info-message">No hay vehículos registrados. Haz clic en "Agregar Vehículo".</p>
+     </div>
+</main>
+
+
+
+
+
+<div class="modal-overlay" id="modalNuevoVehiculo">
+    <div class="modal">
+
+        <div class="modal-header">
+            <h2>Nuevo Vehículo</h2>
+            <span class="modal-close" onclick="closeAddVehicleModal()">&times;</span>
+        </div>
+
+        <form class="modal-form" onsubmit="event.preventDefault(); saveVehicle();"> 
+            <label>Marca</label>
+            <input type="text" id="vehiculoMarca" placeholder="Honda, Toyota, Yamaha..." required>
+
+            <label>Modelo</label>
+            <input type="text" id="vehiculoModelo" placeholder="Civic, Corolla, FZ..." required>
+
+            <div class="form-row">
+                <div>
+                    <label>Año</label>
+                    <input type="number" id="vehiculoAnio" placeholder="2020" required>
+                </div>
+                <div>
+                    <label>Placas</label>
+                    <input type="text" id="vehiculoPlacas" placeholder="ABC-123">
+                </div>
+            </div>
+
+            <label>Kilometraje Actual</label>
+            <input type="number" id="vehiculoKilometraje" placeholder="24500" required>
+
+
+        <div class="modal-actions">
+            <button type="button" class="btn-cancelar" onclick="closeAddVehicleModal()">Cancelar</button>
+            <button type="submit" class="btn-guardar" onclick="saveVehicle()">Guardar</button>
+        </div>
+    </div>
+</div>
+
+<section class="maintenance-view hidden-view" id="maintenance-view">
+    <div class="action-bar maintenance-header">
+        <h2 class="section-title maintenance-title" id="maintenance-vehicle-title"></h2>
+        <button class="add-vehicle-btn" onclick="showVehiclesList()">
+            ← Volver a Mis Vehículos
+        </button>
+    </div>
+
+    <div class="maintenance-content-container">
+        
+        <div class="maintenance-card next-maintenance">
+            <h3 class="card-subtitle">Próximo Mantenimiento</h3>
+            <div id="next-maintenance-list">
+                <p>No hay mantenimientos próximos registrados.</p>
+            </div>
+        </div>
+
+        <div class="maintenance-history-wrapper">
+            <div class="maintenance-history-header">
+                <h3 class="card-subtitle">Historial de Mantenimiento</h3>
+                <span class="record-count" id="maintenance-record-count">0 registros</span>
+                <button class="add-maintenance-btn" onclick="alert('Abrir modal de registrar mantenimiento')">
+                    + Registrar Mantenimiento
+                </button>
+            </div>
+            <div class="maintenance-history-list" id="maintenance-history-list">
+                <p class="info-message-small">No hay historial de mantenimiento registrado.</p>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+</body>
+</html>
