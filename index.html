@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OIP Inmobiliarias Puebla - Acceso con Fondo Animado</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  /* --- Estilos Generales, Reset y Paleta OIP --- */
+  :root {
+    --oip-lime: #a3c936;
+    --oip-black: #1a1a1a;
+    --oip-dark-grey: #333333;
+    --oip-light-grey: #f7f7f7;
+    --oip-border-grey: #e1e1e1;
+    --primary-font: 'Montserrat', sans-serif;
+    --serif-font: 'Playfair Display', serif;
+
+    /* Nuevos Colores para la Animación de Fondo */
+    --shape-color-1: #ff5733; /* Naranja Neón */
+    --shape-color-2: #00e5ff; /* Cian Brillante */
+    --shape-color-3: #9b51e0; /* Morado OIP-like */
+    --shape-color-4: #ff007f; /* Rosa Fucsia */
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: var(--primary-font);
+    background-color: var(--oip-black); /* Fondo oscuro por defecto */
+    overflow: hidden; /* Evitar scroll */
+    transition: background-color 0.5s ease;
+    height: 100vh;
+    width: 100vw;
+  }
+
+  /* --- Pantalla de Carga (Preloader) --- */
+  .preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000; /* Asegurar que esté por encima de todo al inicio */
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
+  }
+
+  .preloader.hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* ... (Mismos estilos de logo y animaciones que el código anterior) ... */
+  .logo-wrapper { display: flex; flex-direction: column; align-items: center; }
+  .logo-top-section { display: flex; align-items: center; justify-content: center; margin-bottom: 30px; }
+  .logo-icon { width: 140px; height: 140px; color: var(--oip-lime); opacity: 0; transform: scale(0.9); animation: fadeInIcon 0.8s ease-out forwards; animation-delay: 0.2s; }
+  .logo-divider { width: 4px; height: 160px; background-color: var(--oip-black); margin: 0 40px; transform: scaleY(0); animation: drawDivider 1s ease-out forwards; animation-delay: 0.8s; }
+  .logo-acronym { font-family: var(--serif-font); font-size: 160px; color: var(--oip-lime); line-height: 1; font-weight: 400; margin: 0; letter-spacing: 0.05em; opacity: 0; transform: translateX(20px); animation: fadeInOIP 0.8s ease-out forwards; animation-delay: 1.4s; }
+  .logo-texts { opacity: 0; transform: translateY(20px); animation: fadeInTexts 0.8s ease-out forwards; animation-delay: 2.2s; text-align: center; }
+  .logo-title { font-size: 26px; color: var(--oip-black); font-weight: 300; letter-spacing: 0.45em; text-transform: uppercase; margin: 0 0 20px 0; }
+  .logo-slogan { font-size: 14px; color: var(--oip-dark-grey); font-weight: 400; letter-spacing: 0.35em; text-transform: uppercase; margin: 0; }
+  @keyframes fadeInIcon { to { opacity: 1; transform: scale(1); } }
+  @keyframes drawDivider { to { transform: scaleY(1); } }
+  @keyframes fadeInOIP { to { opacity: 1; transform: translateX(0); } }
+  @keyframes fadeInTexts { to { opacity: 1; transform: translateY(0); } }
+
+  /* --- Estilos del Fondo Animado (NUEVO) --- */
+  .animated-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 1; /* Fondo */
+    opacity: 0; /* Oculto inicialmente */
+    transition: opacity 1s ease-in;
+  }
+
+  .animated-background.visible {
+    opacity: 1;
+  }
+
+  .gradient-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, transparent 0%, #000000 90%);
+    z-index: 5; /* Capa sobre las figuras */
+    animation: pulse-overlay 10s infinite alternate;
+  }
+
+  @keyframes pulse-overlay { 0% { opacity: 0.7; } 100% { opacity: 0.9; } }
+
+  /* Estilos para las figuras geométricas animables */
+  .shape {
+    position: absolute;
+    opacity: 0.25;
+    transform-origin: center;
+    filter: blur(1px); /* Ligero desenfoque para efecto de profundidad */
+  }
+
+  .square { width: 50px; height: 50px; background: var(--shape-color-1); animation: rotateShape 20s infinite linear; }
+  .circle { width: 70px; height: 70px; border-radius: 50%; background: var(--shape-color-2); animation: pulseShape 15s infinite alternate; }
+  .triangle { width: 0; height: 0; border-left: 30px solid transparent; border-right: 30px solid transparent; border-bottom: 60px solid var(--shape-color-3); animation: floatShape 12s infinite ease-in-out; }
+  .rectangle { width: 100px; height: 40px; background: var(--shape-color-4); animation: slideShape 18s infinite linear; }
+
+  /* Keyframes de las animaciones de las figuras */
+  @keyframes rotateShape { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+  @keyframes pulseShape { 0% { transform: scale(1); opacity: 0.15; } 50% { transform: scale(1.4); opacity: 0.35; } 100% { transform: scale(1); opacity: 0.15; } }
+  @keyframes floatShape { 0% { transform: translateY(0px) translateX(0px) rotate(0deg); } 50% { transform: translateY(-30px) translateX(30px) rotate(180deg); } 100% { transform: translateY(0px) translateX(0px) rotate(360deg); } }
+  @keyframes slideShape { 0% { transform: translateX(-150px) rotate(0deg); } 50% { transform: translateX(150px) rotate(180deg); } 100% { transform: translateX(-150px) rotate(360deg); } }
+
+  /* Partículas de fondo */
+  .particles { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; }
+  .particle { position: absolute; width: 2px; height: 2px; background-color: #ffffff; opacity: 0.4; animation: sparkle 8s infinite linear; }
+  @keyframes sparkle { 0% { opacity: 0; } 50% { opacity: 0.7; } 100% { opacity: 0; } }
+
+  /* --- Pantalla de Inicio de Sesión (FORMULARIO) --- */
+  .auth-screen {
+    position: relative;
+    z-index: 10; /* Asegurar que flote sobre el fondo animado */
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+    display: none; /* Oculto por defecto, JS lo muestra */
+    width: 100%;
+    height: 100vh;
+    overflow-y: auto; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+
+  .auth-screen.visible {
+    opacity: 1;
+    transform: translateY(0);
+    display: flex;
+  }
+
+  /* Panel centrado principal */
+  .auth-panel {
+    background: rgba(255, 255, 255, 0.95); /* Fondo blanco ligeramente translúcido */
+    width: 100%;
+    max-width: 450px;
+    border-radius: 12px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.3); /* Sombra más fuerte para flotar sobre el fondo */
+    overflow: hidden;
+    backdrop-filter: blur(5px); /* Desenfoque del fondo bajo el panel */
+  }
+
+  /* ... (Resto de estilos de formulario, inputs y botones igual que antes) ... */
+  .form-container { padding: 50px 40px; }
+  .form-title { font-family: var(--serif-font); font-size: 38px; color: var(--oip-lime); font-weight: 400; margin-bottom: 40px; border-bottom: 2px solid var(--oip-lime); padding-bottom: 10px; display: inline-block; }
+  .input-group { margin-bottom: 25px; display: flex; flex-direction: column; }
+  .input-label { font-size: 13px; font-weight: 600; color: var(--oip-dark-grey); text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 10px; }
+  .input-field { font-family: var(--primary-font); font-size: 15px; padding: 14px 18px; border: 1px solid var(--oip-border-grey); border-radius: 6px; background-color: #ffffff; transition: border-color 0.2s; }
+  .input-field:focus { outline: none; border-color: var(--oip-lime); box-shadow: 0 0 0 2px rgba(163, 201, 54, 0.15); }
+  .btn-submit { font-family: var(--primary-font); font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.2em; color: #ffffff; background-color: var(--oip-lime); border: none; padding: 18px; border-radius: 8px; width: 100%; cursor: pointer; transition: background-color 0.2s, transform 0.1s; margin-top: 20px; }
+  .btn-submit:hover { background-color: #92b82f; }
+  .btn-submit:active { transform: scale(0.98); }
+
+</style>
+</head>
+<body>
+
+  <div class="preloader" id="preloader">
+    <div class="logo-wrapper">
+      <div class="logo-top-section">
+   <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+      <polyline points="9 22 9 12 15 12 15 22"></polyline>
+    </svg>
+        <div class="logo-divider"></div>
+        <h1 class="logo-acronym">OIP</h1>
+      </div>
+      <div class="logo-texts">
+        <h2 class="logo-title">OPCIONES INMOBILIARIAS PUEBLA</h2>
+        <p class="logo-slogan">NO VENDEMOS CASAS, CAMBIAMOS VIDAS</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="animated-background" id="animatedBackground">
+    <div class="geometric-shapes" id="geometricShapes"></div>
+    <div class="particles" id="particles"></div>
+    <div class="gradient-overlay"></div>
+  </div>
+
+  <div class="auth-screen" id="authScreen">
+    <div class="auth-panel">
+      
+      <form class="form-container login-form" onsubmit="return false;">
+        <h2 class="form-title">Iniciar sesión</h2>
+        
+        <div class="input-group">
+          <label class="input-label" for="loginEmail">Correo electrónico</label>
+          <input type="email" id="loginEmail" class="input-field" placeholder="ejemplo@email.com" required>
+        </div>
+
+        <div class="input-group">
+          <label class="input-label" for="loginPassword">Contraseña</label>
+          <input type="password" id="loginPassword" class="input-field" placeholder="********" required>
+        </div>
+
+        <button type="submit" class="btn-submit">Ingresar</button>
+      </form>
+
+    </div>
+  </div>
+
+  <script>
+    // Tiempo de duración de la pantalla de carga
+    const LOADING_DURATION = 3500; 
+
+    // --- Lógica del Fondo Animado ---
+    function createGeometricShapes() {
+      const container = document.getElementById('geometricShapes');
+      const shapeTypes = ['square', 'circle', 'triangle', 'rectangle'];
+      const numShapes = 35; // Cantidad de figuras
+
+      for (let i = 0; i < numShapes; i++) {
+        const shape = document.createElement('div');
+        const shapeClass = shapeTypes[Math.floor(Math.random() * shapeTypes.length)];
+        shape.className = `shape ${shapeClass}`;
+        
+        // Posiciones iniciales aleatorias
+        shape.style.left = `${Math.random() * 100}%`;
+        shape.style.top = `${Math.random() * 100}%`;
+        
+        // Retrasos y duraciones aleatorias para desincronizar
+        shape.style.animationDelay = `${Math.random() * 15}s`;
+        shape.style.animationDuration = `${Math.random() * 10 + 10}s`;
+        
+        container.appendChild(shape);
+      }
+    }
+
+    function createParticles() {
+      const container = document.getElementById('particles');
+      const numParticles = 80;
+
+      for (let i = 0; i < numParticles; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        
+        particle.style.left = `${Math.random() * 100}%`;
+        particle.style.top = `${Math.random() * 100}%`;
+        particle.style.animationDelay = `${Math.random() * 8}s`;
+        particle.style.animationDuration = `${Math.random() * 4 + 4}s`;
+        
+        container.appendChild(particle);
+      }
+    }
+
+    // --- Lógica de Transición de Pantallas ---
+    window.addEventListener('load', () => {
+      const preloader = document.getElementById('preloader');
+      const authScreen = document.getElementById('authScreen');
+      const animatedBackground = document.getElementById('animatedBackground');
+
+      // Inicializar las figuras y partículas (pero permanecen ocultas con el fondo)
+      createGeometricShapes();
+      createParticles();
+
+      setTimeout(() => {
+        // 1. Ocultar el preloader
+        preloader.classList.add('hidden');
+        
+        // 2. Revelar el fondo animado
+        animatedBackground.classList.add('visible');
+        
+        setTimeout(() => {
+          // 3. Revelar el formulario de login flotando encima
+          authScreen.classList.add('visible');
+          document.body.style.overflow = 'auto'; // Permitir scroll si es necesario
+        }, 800); // Pequeño retraso después de que aparece el fondo
+
+      }, LOADING_DURATION);
+    });
+  </script>
+
+</body>
+</html>
