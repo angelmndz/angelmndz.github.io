@@ -1,366 +1,549 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VibetuHogar - Iniciar Sesión</title>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VibetuHogar - Inmobiliaria</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-<style>
-  /* --- Variables de Color VibetuHogar --- */
-  :root {
-    --vh-dark-blue: #0d3b66;
-    --vh-teal: #36909a;
-    --vh-cyan: #65f0ca;
-    --vh-bg-light: #f4f8fb;
-    --vh-white: #ffffff;
-    --vh-border: #d1dce5;
+    <style>
+        /* === VARIABLES GLOBALES === */
+        :root {
+            --vh-dark-blue: #0d3b66;
+            --vh-teal: #36909a;
+            --vh-cyan: #65f0ca;
+            --vh-bg-light: #f4f8fb;
+            --vh-white: #ffffff;
+        }
 
-    /* Colores para las figuras del fondo animado (tonos suaves de la marca) */
-    --shape-color-1: rgba(13, 59, 102, 0.08); /* Azul oscuro translúcido */
-    --shape-color-2: rgba(54, 144, 154, 0.15); /* Teal translúcido */
-    --shape-color-3: rgba(101, 240, 202, 0.2);  /* Cian translúcido */
-    --shape-color-4: rgba(20, 82, 119, 0.1);  /* Azul intermedio */
-  }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
 
-  * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: 'Montserrat', sans-serif;
-  }
+        body { 
+            background-color: var(--vh-bg-light); 
+            display: flex; 
+            flex-direction: column; 
+            min-height: 100vh; 
+            overflow-x: hidden; 
+        }
+        
+        /* Clase para bloquear el scroll mientras carga */
+        body.no-scroll {
+            overflow: hidden;
+        }
 
-  body {
-    background-color: var(--vh-bg-light);
-    overflow: hidden; 
-    height: 100vh;
-    width: 100vw;
-  }
+        main { flex: 1; padding-top: 100px; width: 100%; }
 
-  /* =========================================
-     1. PANTALLA DE CARGA (VibetuHogar)
-     ========================================= */
-  #preloader {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: var(--vh-bg-light);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 2000;
-    transition: opacity 0.8s ease-in-out, visibility 0.8s;
-  }
+        /* =========================================
+           === PANTALLA DE CARGA (PRELOADER) ===
+           ========================================= */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: var(--vh-bg-light);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            transition: opacity 0.8s ease-in-out, visibility 0.8s;
+        }
 
-  #preloader.hidden {
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-  }
+        #preloader.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
 
-  .logo-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative;
-  }
+        .logo-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
 
-  .glow-effect {
-    position: absolute;
-    top: 10%;
-    width: 120px;
-    height: 120px;
-    background: radial-gradient(circle, rgba(92,237,196,0.3) 0%, rgba(255,255,255,0) 70%);
-    border-radius: 50%;
-    z-index: 0;
-    animation: pulseGlow 2s infinite alternate ease-in-out;
-  }
+        .glow-effect {
+            position: absolute;
+            top: 10%;
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle, rgba(92,237,196,0.3) 0%, rgba(255,255,255,0) 70%);
+            border-radius: 50%;
+            z-index: 0;
+            animation: pulseGlow 2s infinite alternate ease-in-out;
+        }
 
-  .logo-svg {
-    width: 150px;
-    height: 150px;
-    z-index: 1;
-    filter: drop-shadow(0px 4px 6px rgba(0,0,0,0.05));
-  }
+        .logo-svg {
+            width: 150px;
+            height: 150px;
+            z-index: 1;
+            filter: drop-shadow(0px 4px 6px rgba(0,0,0,0.05));
+        }
 
-  .draw-path {
-    stroke-dasharray: 300;
-    stroke-dashoffset: 300;
-    animation: draw 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-  }
+        .draw-path {
+            stroke-dasharray: 300;
+            stroke-dashoffset: 300;
+            animation: draw 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
 
-  .logo-title {
-    color: var(--vh-dark-blue);
-    font-size: 2.2rem;
-    font-weight: 800;
-    margin-top: 10px;
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeInUp 0.8s ease 1.5s forwards;
-    z-index: 1;
-  }
+        .logo-title-preloader {
+            color: var(--vh-dark-blue);
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-top: 10px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease 1.5s forwards;
+            z-index: 1;
+        }
 
-  .logo-subtitle {
-    color: #555;
-    font-size: 0.95rem;
-    font-weight: 500;
-    text-align: center;
-    line-height: 1.4;
-    margin-top: 5px;
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeInUp 0.8s ease 1.8s forwards;
-    z-index: 1;
-  }
+        .logo-subtitle {
+            color: #555;
+            font-size: 0.95rem;
+            font-weight: 500;
+            text-align: center;
+            line-height: 1.4;
+            margin-top: 5px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease 1.8s forwards;
+            z-index: 1;
+        }
 
-  @keyframes draw { to { stroke-dashoffset: 0; } }
-  @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
-  @keyframes pulseGlow { from { transform: scale(1); opacity: 0.5; } to { transform: scale(1.5); opacity: 1; } }
+        @keyframes draw { to { stroke-dashoffset: 0; } }
+        @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+        @keyframes pulseGlow { from { transform: scale(1); opacity: 0.5; } to { transform: scale(1.5); opacity: 1; } }
 
+        /* === HEADER DESKTOP === */
+        .site-header {
+            position: fixed; top: 0; left: 0; width: 100%; padding: 20px 5%;
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 1000; transition: all 0.4s ease-in-out; background-color: transparent; 
+        }
 
-  /* =========================================
-     2. FONDO ANIMADO GEOMÉTRICO
-     ========================================= */
-  .animated-background { 
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-    overflow: hidden; z-index: 1; opacity: 0; transition: opacity 1s ease-in; 
-  }
-  .animated-background.visible { opacity: 1; }
-  
-  /* Sutil degradado claro para darle profundidad al fondo */
-  .gradient-overlay { 
-    position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
-    background: radial-gradient(circle at center, transparent 0%, rgba(209, 220, 229, 0.4) 100%); 
-    z-index: 5; animation: pulse-overlay 10s infinite alternate; 
-  }
-  @keyframes pulse-overlay { 0% { opacity: 0.5; } 100% { opacity: 1; } }
-  
-  .shape { position: absolute; filter: blur(1px); }
-  
-  .diamond { width: 50px; height: 50px; background: var(--shape-color-1); animation: rotateShape 20s infinite linear; }
-  .ring { width: 70px; height: 70px; border-radius: 50%; border: 6px solid var(--shape-color-2); background: transparent; animation: pulseShape 15s infinite alternate; }
-  .hexagon { width: 60px; height: 65px; background: var(--shape-color-3); clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); animation: floatShape 12s infinite ease-in-out; }
-  .pill { width: 90px; height: 35px; background: var(--shape-color-4); border-radius: 20px; animation: slideShape 18s infinite linear; }
+        .site-header.scrolled {
+            background-color: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px);
+            padding: 15px 5%; box-shadow: 0 4px 20px rgba(13, 59, 102, 0.08);
+        }
 
-  @keyframes rotateShape { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-  @keyframes pulseShape { 0% { transform: scale(1); opacity: 0.5; } 50% { transform: scale(1.2); opacity: 1; } 100% { transform: scale(1); opacity: 0.5; } }
-  @keyframes floatShape { 0% { transform: translateY(0px) translateX(0px) rotate(0deg); } 50% { transform: translateY(-30px) translateX(30px) rotate(180deg); } 100% { transform: translateY(0px) translateX(0px) rotate(360deg); } }
-  @keyframes slideShape { 0% { transform: translateX(-150px) rotate(0deg); } 50% { transform: translateX(150px) rotate(180deg); } 100% { transform: translateX(-150px) rotate(360deg); } }
+        .header-logo { font-size: 1.6rem; font-weight: 800; color: var(--vh-dark-blue); text-decoration: none; }
+        .header-logo span { color: var(--vh-teal); }
 
-  .particles { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; }
-  .particle { position: absolute; width: 3px; height: 3px; background-color: var(--vh-teal); border-radius: 50%; opacity: 0.2; animation: sparkle 8s infinite linear; }
-  @keyframes sparkle { 0% { opacity: 0; transform: scale(0.5); } 50% { opacity: 0.5; transform: scale(1.5); } 100% { opacity: 0; transform: scale(0.5); } }
+        /* Contenedor del menú para PC */
+        .nav-wrapper { display: flex; align-items: center; gap: 30px; }
 
+        .header-nav { display: flex; gap: 25px; }
+        .header-nav a { text-decoration: none; color: var(--vh-dark-blue); font-weight: 600; font-size: 0.95rem; transition: color 0.3s; position: relative; }
+        .header-nav a:hover { color: var(--vh-teal); }
+        .header-nav a::after { content: ''; position: absolute; width: 0; height: 2px; bottom: -4px; left: 0; background-color: var(--vh-teal); transition: width 0.3s; }
+        .header-nav a:hover::after { width: 100%; }
 
-  /* =========================================
-     3. PANEL DE INICIO DE SESIÓN
-     ========================================= */
-  .auth-screen {
-    position: relative;
-    z-index: 10;
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-    display: none;
-    width: 100%;
-    height: 100vh;
-    overflow-y: auto; 
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-  }
+        .auth-buttons { display: flex; align-items: center; gap: 15px; }
+        .btn-login { color: var(--vh-dark-blue); font-weight: 700; text-decoration: none; font-size: 0.9rem; transition: color 0.3s; }
+        .btn-login:hover { color: var(--vh-teal); }
+        .btn-register { background: linear-gradient(135deg, var(--vh-cyan) 0%, var(--vh-teal) 100%); color: var(--vh-dark-blue); font-weight: 700; text-decoration: none; padding: 10px 22px; border-radius: 8px; transition: transform 0.2s, box-shadow 0.2s; }
+        .btn-register:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(54, 144, 154, 0.3); }
 
-  .auth-screen.visible { opacity: 1; transform: translateY(0); display: flex; }
+        /* Botón Hamburguesa (Oculto en PC) */
+        .menu-toggle {
+            display: none; flex-direction: column; justify-content: space-between;
+            width: 30px; height: 21px; cursor: pointer; z-index: 1001;
+        }
+        .menu-toggle span {
+            display: block; width: 100%; height: 3px; background-color: var(--vh-dark-blue);
+            border-radius: 3px; transition: all 0.3s ease;
+        }
 
-  .auth-panel { 
-    background: rgba(255, 255, 255, 0.85); 
-    width: 100%; 
-    max-width: 420px; 
-    border-radius: 16px; 
-    box-shadow: 0 15px 35px rgba(13, 59, 102, 0.1); 
-    backdrop-filter: blur(12px); 
-    border: 1px solid rgba(255, 255, 255, 0.5);
-  }
-  
-  .form-container { padding: 45px 40px; }
-  
-  .form-title { 
-    font-size: 28px; 
-    color: var(--vh-dark-blue); 
-    font-weight: 800; 
-    margin-bottom: 35px; 
-    text-align: center; 
-  }
-  
-  .input-group { margin-bottom: 22px; display: flex; flex-direction: column; }
-  
-  .input-label { 
-    font-size: 12px; 
-    font-weight: 700; 
-    color: var(--vh-teal); 
-    text-transform: uppercase; 
-    letter-spacing: 0.1em; 
-    margin-bottom: 8px; 
-  }
-  
-  .input-field { 
-    font-size: 15px; 
-    padding: 14px 16px; 
-    border: 2px solid var(--vh-border); 
-    border-radius: 8px; 
-    background-color: var(--vh-white); 
-    color: var(--vh-dark-blue);
-    transition: all 0.3s ease; 
-  }
-  
-  .input-field:focus { 
-    outline: none; 
-    border-color: var(--vh-teal); 
-    box-shadow: 0 0 0 4px rgba(54, 144, 154, 0.15); 
-  }
-  
-  .btn-submit { 
-    font-size: 14px; 
-    font-weight: 700; 
-    text-transform: uppercase; 
-    letter-spacing: 0.15em; 
-    color: var(--vh-dark-blue); 
-    /* Degradado del cian al teal para el botón */
-    background: linear-gradient(135deg, var(--vh-cyan) 0%, var(--vh-teal) 100%); 
-    border: none; 
-    padding: 16px; 
-    border-radius: 8px; 
-    width: 100%; 
-    cursor: pointer; 
-    transition: transform 0.2s, box-shadow 0.2s; 
-    margin-top: 15px; 
-  }
-  
-  .btn-submit:hover { 
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(54, 144, 154, 0.3);
-  }
-  
-  .btn-submit:active { transform: scale(0.98); }
+        /* =========================================================
+           === CSS RESPONSIVO EXTRA (MÓVILES Y TABLETS) - HEADER ===
+           ========================================================= */
+        @media (max-width: 992px) {
+            .menu-toggle { display: flex; } /* Mostramos la hamburguesa */
+            
+            /* El nav-wrapper se convierte en un panel lateral oculto */
+            .nav-wrapper {
+                position: fixed; top: 0; right: -100%; width: 280px; height: 100vh;
+                background-color: var(--vh-white); box-shadow: -5px 0 20px rgba(0,0,0,0.1);
+                flex-direction: column; justify-content: flex-start; align-items: flex-start;
+                padding: 80px 30px 30px 30px; transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                overflow-y: auto;
+            }
 
-</style>
+            /* Clase activa para mostrar el menú */
+            .nav-wrapper.active { right: 0; }
+
+            .header-nav { flex-direction: column; gap: 20px; width: 100%; margin-bottom: 30px; }
+            .header-nav a { font-size: 1.1rem; width: 100%; display: block; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+            .header-nav a::after { display: none; } /* Quitamos la rayita en móvil */
+
+            .auth-buttons { flex-direction: column; width: 100%; gap: 15px; align-items: flex-start; }
+            .btn-login { padding: 10px 0; width: 100%; text-align: left; }
+            .btn-register { width: 100%; text-align: center; }
+
+            /* Animación de la hamburguesa a "X" */
+            .menu-toggle.active span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+            .menu-toggle.active span:nth-child(2) { opacity: 0; }
+            .menu-toggle.active span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+            
+            /* Fondo oscuro al abrir el menú */
+            .menu-overlay {
+                position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+                background: rgba(13, 59, 102, 0.5); z-index: 999;
+                opacity: 0; visibility: hidden; transition: all 0.3s; backdrop-filter: blur(3px);
+            }
+            .menu-overlay.active { opacity: 1; visibility: visible; }
+        }
+
+        /* === ESTILOS DEL HERO Y BUSCADOR === */
+        .hero-section { position: relative; width: 100%; min-height: 85vh; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 0 5%; overflow: hidden; background-color: var(--vh-bg-light); margin-top: -100px; padding-top: 100px; }
+        .hero-content { position: relative; z-index: 10; text-align: center; max-width: 900px; width: 100%; }
+        .hero-title { color: var(--vh-dark-blue); font-size: 3.5rem; font-weight: 800; line-height: 1.2; margin-bottom: 20px; }
+        .hero-subtitle { color: #555; font-size: 1.1rem; font-weight: 500; margin-bottom: 40px; }
+        
+        .main-search-bar { background: var(--vh-white); padding: 10px; border-radius: 60px; box-shadow: 0 15px 40px rgba(13, 59, 102, 0.12); display: flex; align-items: center; gap: 10px; border: 1px solid rgba(54, 144, 154, 0.2); transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .main-search-bar:hover { transform: translateY(-3px); box-shadow: 0 20px 50px rgba(13, 59, 102, 0.18); }
+        .search-group { display: flex; align-items: center; flex: 1; padding: 0 20px; border-right: 1px solid #e1e8ed; }
+        .search-group:last-child { border-right: none; }
+        .search-icon { font-size: 1.2rem; margin-right: 15px; }
+        .search-input, .search-select { border: none; outline: none; width: 100%; font-size: 1rem; color: var(--vh-dark-blue); background: transparent; }
+        .search-select { cursor: pointer; appearance: none; }
+        .btn-search { background: linear-gradient(135deg, var(--vh-cyan) 0%, var(--vh-teal) 100%); color: var(--vh-dark-blue); border: none; padding: 18px 40px; border-radius: 50px; font-weight: 700; font-size: 1rem; cursor: pointer; transition: opacity 0.2s; height: 100%; }
+        .btn-search:hover { opacity: 0.9; }
+        .btn-map { display: flex; align-items: center; gap: 8px; color: var(--vh-teal); text-decoration: none; font-weight: 600; margin-top: 20px; font-size: 0.95rem; justify-content: center; transition: color 0.3s; }
+        
+        .hero-animated-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; z-index: 1; opacity: 0; transition: opacity 1s ease-in; }
+        .hero-animated-bg.visible { opacity: 1; }
+        .shape { position: absolute; filter: blur(1px); }
+        .diamond { width: 50px; height: 50px; background: rgba(13, 59, 102, 0.05); animation: rotateShape 25s infinite linear; }
+        .ring { width: 80px; height: 80px; border-radius: 50%; border: 6px solid rgba(54, 144, 154, 0.1); background: transparent; animation: pulseShape 18s infinite alternate; }
+        .hexagon { width: 70px; height: 75px; background: rgba(101, 240, 202, 0.15); clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); animation: floatShape 15s infinite ease-in-out; }
+
+        @keyframes rotateShape { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes pulseShape { 0% { transform: scale(1); opacity: 0.5; } 50% { transform: scale(1.2); opacity: 1; } 100% { transform: scale(1); opacity: 0.5; } }
+        @keyframes floatShape { 0% { transform: translateY(0px) rotate(0deg); } 50% { transform: translateY(-40px) rotate(180deg); } 100% { transform: translateY(0px) rotate(360deg); } }
+
+        /* =========================================================
+           === SISTEMA DE ANIMACIONES DE ENTRADA (FADE UP) ===
+           ========================================================= */
+        .fade-up-element {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .fade-up-element.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .delay-1 { transition-delay: 0.1s; }
+        .delay-2 { transition-delay: 0.3s; }
+        .delay-3 { transition-delay: 0.5s; }
+
+        /* =========================================================
+           === CSS RESPONSIVO EXTRA (MÓVILES Y TABLETS) - INDEX ===
+           ========================================================= */
+        @media (max-width: 768px) {
+            .hero-title { font-size: 2.2rem; margin-top: 40px;}
+            .hero-subtitle { font-size: 1rem; }
+            
+            .main-search-bar { flex-direction: column; border-radius: 20px; padding: 20px; gap: 15px; }
+            .search-group { border-right: none; border-bottom: 1px solid #e1e8ed; padding: 10px 0; width: 100%; }
+            .search-group:last-of-type { border-bottom: none; margin-bottom: 10px; }
+            .btn-search { width: 100%; border-radius: 12px; padding: 15px; }
+            
+            .properties-grid { grid-template-columns: 1fr !important; }
+        }
+
+        /* === ESTILOS DEL FOOTER === */
+        .site-footer {
+            background-color: var(--vh-dark-blue);
+            color: var(--vh-white);
+            padding: 50px 5% 20px 5%;
+            margin-top: auto; 
+        }
+
+        .footer-grid {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .footer-col h3 {
+            color: var(--vh-cyan);
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            font-weight: 800;
+        }
+
+        .footer-col p {
+            color: #d1dce5;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        .footer-links a {
+            color: #d1dce5;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+        }
+        .footer-links a:hover {
+            color: var(--vh-cyan);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #8c9ba5;
+            font-size: 0.85rem;
+        }
+    </style>
 </head>
-<body>
+<body class="no-scroll">
 
-  <div class="preloader" id="preloader">
-    <div class="logo-container">
-        <div class="glow-effect"></div>
-        <svg viewBox="0 0 100 100" class="logo-svg">
-            <defs>
-                <linearGradient id="logoGrad" x1="0%" y1="100%" x2="100%" y2="0%">
-                    <stop offset="0%" style="stop-color:#145277;stop-opacity:1" />
-                    <stop offset="50%" style="stop-color:#36909a;stop-opacity:1" />
-                    <stop offset="100%" style="stop-color:#65f0ca;stop-opacity:1" />
-                </linearGradient>
-            </defs>
-            <path class="draw-path" d="M 50 20 L 15 45 L 15 80 L 45 80" fill="none" stroke="url(#logoGrad)" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
-            <path class="draw-path" d="M 50 20 L 85 45 L 85 80 L 70 80" fill="none" stroke="url(#logoGrad)" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
-            <path class="draw-path" d="M 25 38 L 25 20 L 32 20 L 32 33" fill="none" stroke="url(#logoGrad)" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
-            <circle class="draw-path" cx="50" cy="55" r="4" fill="none" stroke="url(#logoGrad)" stroke-width="3"/>
-            <circle class="draw-path" cx="50" cy="55" r="11" fill="none" stroke="url(#logoGrad)" stroke-width="3"/>
-            <circle class="draw-path" cx="50" cy="55" r="18" fill="none" stroke="url(#logoGrad)" stroke-width="3"/>
-            <path class="draw-path" d="M 50 55 L 85 20 M 70 20 L 85 20 L 85 35" fill="none" stroke="url(#logoGrad)" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
-            <path class="draw-path" d="M 62 67 L 78 82" fill="none" stroke="url(#logoGrad)" stroke-width="4" stroke-linecap="round"/>
-        </svg>
-        <h1 class="logo-title">VibetuHogar</h1>
-        <p class="logo-subtitle">Espacios que inspiran,<br>hogares que vibran.</p>
+    <div class="preloader" id="preloader">
+        <div class="logo-container">
+            <div class="glow-effect"></div>
+            <svg viewBox="0 0 100 100" class="logo-svg">
+                <defs>
+                    <linearGradient id="logoGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+                        <stop offset="0%" style="stop-color:#145277;stop-opacity:1" />
+                        <stop offset="50%" style="stop-color:#36909a;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#65f0ca;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                <path class="draw-path" d="M 50 20 L 15 45 L 15 80 L 45 80" fill="none" stroke="url(#logoGrad)" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+                <path class="draw-path" d="M 50 20 L 85 45 L 85 80 L 70 80" fill="none" stroke="url(#logoGrad)" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+                <path class="draw-path" d="M 25 38 L 25 20 L 32 20 L 32 33" fill="none" stroke="url(#logoGrad)" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+                <circle class="draw-path" cx="50" cy="55" r="4" fill="none" stroke="url(#logoGrad)" stroke-width="3"/>
+                <circle class="draw-path" cx="50" cy="55" r="11" fill="none" stroke="url(#logoGrad)" stroke-width="3"/>
+                <circle class="draw-path" cx="50" cy="55" r="18" fill="none" stroke="url(#logoGrad)" stroke-width="3"/>
+                <path class="draw-path" d="M 50 55 L 85 20 M 70 20 L 85 20 L 85 35" fill="none" stroke="url(#logoGrad)" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+                <path class="draw-path" d="M 62 67 L 78 82" fill="none" stroke="url(#logoGrad)" stroke-width="4" stroke-linecap="round"/>
+            </svg>
+            <h1 class="logo-title-preloader">VibetuHogar</h1>
+            <p class="logo-subtitle">Espacios que inspiran,<br>hogares que vibran.</p>
+        </div>
     </div>
-  </div>
 
-  <div class="animated-background" id="animatedBackground">
-    <div class="geometric-shapes" id="geometricShapes"></div>
-    <div class="particles" id="particles"></div>
-    <div class="gradient-overlay"></div>
-  </div>
+    <div class="menu-overlay" id="menuOverlay"></div>
 
-  <div class="auth-screen" id="authScreen">
-    <div class="auth-panel">
-      <form class="form-container login-form" onsubmit="return false;">
-        <h2 class="form-title">Bienvenido</h2>
+    <header class="site-header" id="mainHeader">
+        <a href="index.html" class="header-logo">VibetuHogar<span>.</span></a>
         
-        <div class="input-group">
-          <label class="input-label" for="loginEmail">Correo electrónico</label>
-          <input type="email" id="loginEmail" class="input-field" placeholder="ejemplo@vibetu.com" required>
+        <div class="nav-wrapper" id="navWrapper">
+            <nav class="header-nav">
+                <a href="index.html">Inicio</a>
+                <a href="propiedades.html">Propiedades</a>
+                <a href="servicios.html">Servicios</a>
+                <a href="nosotros.html">Nosotros</a>
+                <a href="contacto.html">Contacto</a>
+            </nav>
+            <div class="auth-buttons">
+                <a href="login.html" class="btn-login">Iniciar sesión</a>
+                <a href="registro.html" class="btn-register">Registrarme</a>
+            </div>
         </div>
 
-        <div class="input-group">
-          <label class="input-label" for="loginPassword">Contraseña</label>
-          <input type="password" id="loginPassword" class="input-field" placeholder="********" required>
+        <div class="menu-toggle" id="mobileMenuBtn">
+            <span></span><span></span><span></span>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero-section">
+            <div class="hero-animated-bg" id="heroBg"></div>
+
+            <div class="hero-content">
+                <h1 class="hero-title fade-up-element">Encuentra el lugar perfecto<br>para tu nueva vida</h1>
+                <p class="hero-subtitle fade-up-element delay-1">Explora las mejores propiedades y haz que tu hogar vibre con tu estilo.</p>
+
+                <form action="resultados.html" method="GET" class="fade-up-element delay-2">
+                    <div class="main-search-bar">
+                        <div class="search-group">
+                            <span class="search-icon">📍</span>
+                            <input type="text" class="search-input" name="ubicacion" placeholder="Ej. Amozoc, Huaquechula, Centro...">
+                        </div>
+                        <div class="search-group">
+                            <span class="search-icon">🏠</span>
+                            <select class="search-select" name="tipo">
+                                <option value="" disabled selected>Tipo de propiedad</option>
+                                <option value="casa">Casa</option>
+                                <option value="departamento">Departamento</option>
+                                <option value="terreno">Terreno</option>
+                                <option value="local">Local Comercial</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn-search">Buscar</button>
+                    </div>
+                </form>
+
+                <a href="mapa.html" class="btn-map fade-up-element delay-3">
+                    🗺️ Explorar propiedades en el mapa interactivo
+                </a>
+            </div>
+        </section>
+
+        <section style="padding: 80px 5%; max-width: 1200px; margin: 0 auto;">
+            <h2 class="fade-up-element" style="color: var(--vh-dark-blue); font-size: 2rem; text-align: center; margin-bottom: 40px;">Propiedades Destacadas</h2>
+            
+            <div class="properties-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
+                <div class="fade-up-element delay-1" style="background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
+                    <div style="height: 200px; background: #e1e8ed;"></div>
+                    <div style="padding: 20px;">
+                        <h3 style="color: var(--vh-dark-blue);">Casa Residencial</h3>
+                        <p style="color: #777;">📍 Zona Centro</p>
+                        <p style="color: var(--vh-teal); font-weight: 700; font-size: 1.2rem; margin-top: 15px;">$2,500,000 MXN</p>
+                    </div>
+                </div>
+                <div class="fade-up-element delay-2" style="background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
+                    <div style="height: 200px; background: #e1e8ed;"></div>
+                    <div style="padding: 20px;">
+                        <h3 style="color: var(--vh-dark-blue);">Departamento Moderno</h3>
+                        <p style="color: #777;">📍 Zona Norte</p>
+                        <p style="color: var(--vh-teal); font-weight: 700; font-size: 1.2rem; margin-top: 15px;">$1,850,000 MXN</p>
+                    </div>
+                </div>
+                <div class="fade-up-element delay-3" style="background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
+                    <div style="height: 200px; background: #e1e8ed;"></div>
+                    <div style="padding: 20px;">
+                        <h3 style="color: var(--vh-dark-blue);">Terreno de Inversión</h3>
+                        <p style="color: #777;">📍 Zona Sur</p>
+                        <p style="color: var(--vh-teal); font-weight: 700; font-size: 1.2rem; margin-top: 15px;">$900,000 MXN</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h3>VibetuHogar.</h3>
+                <p>No vendemos casas, cambiamos vidas.</p>
+                <p>Encuentra el espacio perfecto que inspire tu día a día y haz que tu hogar vibre con tu estilo.</p>
+            </div>
+
+            <div class="footer-col">
+                <h3 style="color: var(--vh-white); font-size: 1.1rem;">Enlaces Rápidos</h3>
+                <ul class="footer-links">
+                    <li><a href="propiedades.html">Ver Catálogo de Propiedades</a></li>
+                    <li><a href="servicios.html">Asesoría Inmobiliaria</a></li>
+                    <li><a href="registro.html">Crear una cuenta</a></li>
+                    <li><a href="#">Términos y Condiciones</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h3 style="color: var(--vh-white); font-size: 1.1rem;">Contacto</h3>
+                <p>📍 Puebla, México</p>
+                <p>📞 +52 (222) 123-4567</p>
+                <p>✉️ contacto@vibetuhogar.com</p>
+            </div>
         </div>
 
-        <button type="submit" class="btn-submit">Ingresar</button>
-      </form>
-    </div>
-  </div>
+        <div class="footer-bottom">
+            &copy; <span id="year"></span> VibetuHogar. Todos los derechos reservados.
+        </div>
+    </footer>
 
-  <script>
-    // Tiempo para que termine de dibujarse el logo antes de pasar al login
-    const LOADING_DURATION = 4200; 
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // 0. LÓGICA DEL PRELOADER
+            const LOADING_DURATION = 4200; // Tiempo para que se dibuje el logo
+            const preloader = document.getElementById('preloader');
+            const heroBg = document.getElementById('heroBg');
 
-    function createGeometricShapes() {
-      const container = document.getElementById('geometricShapes');
-      const shapeTypes = ['diamond', 'ring', 'hexagon', 'pill'];
-      const numShapes = 25; // Reduje un poco la cantidad para que se vea más limpio
+            setTimeout(() => {
+                preloader.classList.add('hidden');
+                document.body.classList.remove('no-scroll'); // Restauramos el scroll
+                if(window.innerWidth > 992 && heroBg) {
+                    heroBg.classList.add('visible'); // Mostramos el fondo del hero suavemente
+                }
+            }, LOADING_DURATION);
 
-      for (let i = 0; i < numShapes; i++) {
-        const shape = document.createElement('div');
-        const shapeClass = shapeTypes[Math.floor(Math.random() * shapeTypes.length)];
-        shape.className = `shape ${shapeClass}`;
-        
-        shape.style.left = `${Math.random() * 100}%`;
-        shape.style.top = `${Math.random() * 100}%`;
-        shape.style.animationDelay = `${Math.random() * 15}s`;
-        shape.style.animationDuration = `${Math.random() * 10 + 10}s`;
-        
-        container.appendChild(shape);
-      }
-    }
+            // 1. AÑO AUTOMÁTICO EN FOOTER (Remplaza el PHP)
+            document.getElementById('year').textContent = new Date().getFullYear();
 
-    function createParticles() {
-      const container = document.getElementById('particles');
-      const numParticles = 60;
+            // 2. LÓGICA DEL MENÚ MÓVIL (Hamburguesa)
+            const mobileBtn = document.getElementById('mobileMenuBtn');
+            const navWrapper = document.getElementById('navWrapper');
+            const overlay = document.getElementById('menuOverlay');
 
-      for (let i = 0; i < numParticles; i++) {
-        const particle = document.createElement('div');
-        particle.className = 'particle';
-        
-        particle.style.left = `${Math.random() * 100}%`;
-        particle.style.top = `${Math.random() * 100}%`;
-        particle.style.animationDelay = `${Math.random() * 8}s`;
-        particle.style.animationDuration = `${Math.random() * 4 + 4}s`;
-        
-        container.appendChild(particle);
-      }
-    }
+            function toggleMenu() {
+                mobileBtn.classList.toggle('active');
+                navWrapper.classList.toggle('active');
+                overlay.classList.toggle('active');
+                // Bloquea el scroll del fondo cuando el menú está abierto
+                if(!preloader.classList.contains('hidden')) return; // No hacer nada si carga
+                document.body.style.overflow = navWrapper.classList.contains('active') ? 'hidden' : 'auto';
+            }
 
-    window.addEventListener('load', () => {
-      const preloader = document.getElementById('preloader');
-      const authScreen = document.getElementById('authScreen');
-      const animatedBackground = document.getElementById('animatedBackground');
+            mobileBtn.addEventListener('click', toggleMenu);
+            overlay.addEventListener('click', toggleMenu);
 
-      createGeometricShapes();
-      createParticles();
+            // 3. LÓGICA DE ANIMACIONES AL HACER SCROLL O RECARGAR
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.15
+            };
 
-      // Transición del loader al login
-      setTimeout(() => {
-        preloader.classList.add('hidden');
-        animatedBackground.classList.add('visible');
-        
-        setTimeout(() => {
-          authScreen.classList.add('visible');
-          document.body.style.overflow = 'auto'; 
-        }, 800); 
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
 
-      }, LOADING_DURATION);
-    });
-  </script>
+            document.querySelectorAll('.fade-up-element').forEach(el => {
+                observer.observe(el);
+            });
 
+            // 4. GENERADOR DE FIGURAS DEL FONDO (Solo en Hero)
+            if(window.innerWidth > 992) {
+                const bgContainer = document.getElementById('heroBg');
+                const shapeTypes = ['diamond', 'ring', 'hexagon'];
+                for (let i = 0; i < 20; i++) {
+                    const shape = document.createElement('div');
+                    shape.className = `shape ${shapeTypes[Math.floor(Math.random() * shapeTypes.length)]}`;
+                    shape.style.left = `${Math.random() * 100}%`;
+                    shape.style.top = `${Math.random() * 100}%`;
+                    shape.style.animationDelay = `${Math.random() * 10}s`;
+                    bgContainer.appendChild(shape);
+                }
+            }
+
+            // 5. EFECTO SCROLL EN HEADER
+            window.addEventListener('scroll', () => {
+                const header = document.getElementById('mainHeader');
+                if (window.scrollY > 40) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
