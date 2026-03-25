@@ -3,108 +3,166 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OIP Inmobiliarias Puebla - Acceso </title>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet">
+<title>VibetuHogar - Iniciar Sesión</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;800&display=swap" rel="stylesheet">
 
 <style>
-  /* --- Estilos Generales, Reset y Paleta OIP --- */
+  /* --- Variables de Color VibetuHogar --- */
   :root {
-    --oip-lime: #a3c936;
-    --oip-black: #1a1a1a;
-    --oip-dark-grey: #333333;
-    --oip-light-grey: #f7f7f7;
-    --oip-border-grey: #e1e1e1;
-    --primary-font: 'Montserrat', sans-serif;
-    --serif-font: 'Playfair Display', serif;
+    --vh-dark-blue: #0d3b66;
+    --vh-teal: #36909a;
+    --vh-cyan: #65f0ca;
+    --vh-bg-light: #f4f8fb;
+    --vh-white: #ffffff;
+    --vh-border: #d1dce5;
 
-    /* NUEVOS Colores para la Animación de Fondo */
-    --shape-color-1: #F2C94C; /* Amarillo Oro */
-    --shape-color-2: #2D9CDB; /* Azul Cerceta */
-    --shape-color-3: #EB5757; /* Coral */
-    --shape-color-4: #6FCF97; /* Verde Suave */
+    /* Colores para las figuras del fondo animado (tonos suaves de la marca) */
+    --shape-color-1: rgba(13, 59, 102, 0.08); /* Azul oscuro translúcido */
+    --shape-color-2: rgba(54, 144, 154, 0.15); /* Teal translúcido */
+    --shape-color-3: rgba(101, 240, 202, 0.2);  /* Cian translúcido */
+    --shape-color-4: rgba(20, 82, 119, 0.1);  /* Azul intermedio */
   }
 
   * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    font-family: 'Montserrat', sans-serif;
   }
 
   body {
-    font-family: var(--primary-font);
-    background-color: var(--oip-black);
+    background-color: var(--vh-bg-light);
     overflow: hidden; 
-    transition: background-color 0.5s ease;
     height: 100vh;
     width: 100vw;
   }
 
-  /* --- Pantalla de Carga (Preloader) --- */
-  .preloader {
+  /* =========================================
+     1. PANTALLA DE CARGA (VibetuHogar)
+     ========================================= */
+  #preloader {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: #ffffff;
+    background-color: var(--vh-bg-light);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 2000;
-    opacity: 1;
-    transition: opacity 0.5s ease-in-out;
+    transition: opacity 0.8s ease-in-out, visibility 0.8s;
   }
 
-  .preloader.hidden {
+  #preloader.hidden {
     opacity: 0;
+    visibility: hidden;
     pointer-events: none;
   }
 
-  .logo-wrapper { display: flex; flex-direction: column; align-items: center; width: 100%; padding: 0 20px;}
-  .logo-top-section { display: flex; align-items: center; justify-content: center; margin-bottom: 30px; }
-  
-  .logo-icon { width: 140px; height: 140px; color: var(--oip-lime); opacity: 0; transform: scale(0.9); animation: fadeInIcon 0.8s ease-out forwards; animation-delay: 0.2s; }
-  .logo-divider { width: 4px; height: 160px; background-color: var(--oip-black); margin: 0 40px; transform: scaleY(0); animation: drawDivider 1s ease-out forwards; animation-delay: 0.8s; }
-  .logo-acronym { font-family: var(--serif-font); font-size: 160px; color: var(--oip-lime); line-height: 1; font-weight: 400; margin: 0; letter-spacing: 0.05em; opacity: 0; transform: translateX(20px); animation: fadeInOIP 0.8s ease-out forwards; animation-delay: 1.4s; }
-  .logo-texts { opacity: 0; transform: translateY(20px); animation: fadeInTexts 0.8s ease-out forwards; animation-delay: 2.2s; text-align: center; width: 100%;}
-  .logo-title { font-size: 26px; color: var(--oip-black); font-weight: 300; letter-spacing: 0.45em; text-transform: uppercase; margin: 0 0 20px 0; }
-  .logo-slogan { font-size: 14px; color: var(--oip-dark-grey); font-weight: 400; letter-spacing: 0.35em; text-transform: uppercase; margin: 0; }
-  
-  @keyframes fadeInIcon { to { opacity: 1; transform: scale(1); } }
-  @keyframes drawDivider { to { transform: scaleY(1); } }
-  @keyframes fadeInOIP { to { opacity: 1; transform: translateX(0); } }
-  @keyframes fadeInTexts { to { opacity: 1; transform: translateY(0); } }
+  .logo-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+  }
 
-  /* --- Estilos del Fondo Animado --- */
-  .animated-background { position: fixed; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; z-index: 1; opacity: 0; transition: opacity 1s ease-in; }
+  .glow-effect {
+    position: absolute;
+    top: 10%;
+    width: 120px;
+    height: 120px;
+    background: radial-gradient(circle, rgba(92,237,196,0.3) 0%, rgba(255,255,255,0) 70%);
+    border-radius: 50%;
+    z-index: 0;
+    animation: pulseGlow 2s infinite alternate ease-in-out;
+  }
+
+  .logo-svg {
+    width: 150px;
+    height: 150px;
+    z-index: 1;
+    filter: drop-shadow(0px 4px 6px rgba(0,0,0,0.05));
+  }
+
+  .draw-path {
+    stroke-dasharray: 300;
+    stroke-dashoffset: 300;
+    animation: draw 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+
+  .logo-title {
+    color: var(--vh-dark-blue);
+    font-size: 2.2rem;
+    font-weight: 800;
+    margin-top: 10px;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.8s ease 1.5s forwards;
+    z-index: 1;
+  }
+
+  .logo-subtitle {
+    color: #555;
+    font-size: 0.95rem;
+    font-weight: 500;
+    text-align: center;
+    line-height: 1.4;
+    margin-top: 5px;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.8s ease 1.8s forwards;
+    z-index: 1;
+  }
+
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+  @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+  @keyframes pulseGlow { from { transform: scale(1); opacity: 0.5; } to { transform: scale(1.5); opacity: 1; } }
+
+
+  /* =========================================
+     2. FONDO ANIMADO GEOMÉTRICO
+     ========================================= */
+  .animated-background { 
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+    overflow: hidden; z-index: 1; opacity: 0; transition: opacity 1s ease-in; 
+  }
   .animated-background.visible { opacity: 1; }
-  .gradient-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at center, transparent 0%, #000000 90%); z-index: 5; animation: pulse-overlay 10s infinite alternate; }
-  @keyframes pulse-overlay { 0% { opacity: 0.7; } 100% { opacity: 0.9; } }
   
-  .shape { position: absolute; opacity: 0.3; transform-origin: center; filter: blur(1px); }
+  /* Sutil degradado claro para darle profundidad al fondo */
+  .gradient-overlay { 
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+    background: radial-gradient(circle at center, transparent 0%, rgba(209, 220, 229, 0.4) 100%); 
+    z-index: 5; animation: pulse-overlay 10s infinite alternate; 
+  }
+  @keyframes pulse-overlay { 0% { opacity: 0.5; } 100% { opacity: 1; } }
   
-  /* NUEVAS FORMAS GEOMÉTRICAS */
-  .diamond { width: 45px; height: 45px; background: var(--shape-color-1); animation: rotateShape 20s infinite linear; }
-  .ring { width: 65px; height: 65px; border-radius: 50%; border: 6px solid var(--shape-color-2); background: transparent; animation: pulseShape 15s infinite alternate; }
-  .hexagon { width: 55px; height: 60px; background: var(--shape-color-3); clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); animation: floatShape 12s infinite ease-in-out; }
+  .shape { position: absolute; filter: blur(1px); }
+  
+  .diamond { width: 50px; height: 50px; background: var(--shape-color-1); animation: rotateShape 20s infinite linear; }
+  .ring { width: 70px; height: 70px; border-radius: 50%; border: 6px solid var(--shape-color-2); background: transparent; animation: pulseShape 15s infinite alternate; }
+  .hexagon { width: 60px; height: 65px; background: var(--shape-color-3); clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); animation: floatShape 12s infinite ease-in-out; }
   .pill { width: 90px; height: 35px; background: var(--shape-color-4); border-radius: 20px; animation: slideShape 18s infinite linear; }
 
   @keyframes rotateShape { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-  @keyframes pulseShape { 0% { transform: scale(1); opacity: 0.15; } 50% { transform: scale(1.4); opacity: 0.4; } 100% { transform: scale(1); opacity: 0.15; } }
+  @keyframes pulseShape { 0% { transform: scale(1); opacity: 0.5; } 50% { transform: scale(1.2); opacity: 1; } 100% { transform: scale(1); opacity: 0.5; } }
   @keyframes floatShape { 0% { transform: translateY(0px) translateX(0px) rotate(0deg); } 50% { transform: translateY(-30px) translateX(30px) rotate(180deg); } 100% { transform: translateY(0px) translateX(0px) rotate(360deg); } }
   @keyframes slideShape { 0% { transform: translateX(-150px) rotate(0deg); } 50% { transform: translateX(150px) rotate(180deg); } 100% { transform: translateX(-150px) rotate(360deg); } }
 
   .particles { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; }
-  .particle { position: absolute; width: 2px; height: 2px; background-color: #ffffff; opacity: 0.4; animation: sparkle 8s infinite linear; }
-  @keyframes sparkle { 0% { opacity: 0; } 50% { opacity: 0.7; } 100% { opacity: 0; } }
+  .particle { position: absolute; width: 3px; height: 3px; background-color: var(--vh-teal); border-radius: 50%; opacity: 0.2; animation: sparkle 8s infinite linear; }
+  @keyframes sparkle { 0% { opacity: 0; transform: scale(0.5); } 50% { opacity: 0.5; transform: scale(1.5); } 100% { opacity: 0; transform: scale(0.5); } }
 
-  /* --- Pantalla de Inicio de Sesión --- */
+
+  /* =========================================
+     3. PANEL DE INICIO DE SESIÓN
+     ========================================= */
   .auth-screen {
     position: relative;
     z-index: 10;
     opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
     display: none;
     width: 100%;
     height: 100vh;
@@ -116,56 +174,103 @@
 
   .auth-screen.visible { opacity: 1; transform: translateY(0); display: flex; }
 
-  .auth-panel { background: rgba(255, 255, 255, 0.95); width: 100%; max-width: 450px; border-radius: 12px; box-shadow: 0 15px 40px rgba(0,0,0,0.3); overflow: hidden; backdrop-filter: blur(5px); }
+  .auth-panel { 
+    background: rgba(255, 255, 255, 0.85); 
+    width: 100%; 
+    max-width: 420px; 
+    border-radius: 16px; 
+    box-shadow: 0 15px 35px rgba(13, 59, 102, 0.1); 
+    backdrop-filter: blur(12px); 
+    border: 1px solid rgba(255, 255, 255, 0.5);
+  }
   
-  .form-container { padding: 50px 40px; }
-  .form-title { font-family: var(--serif-font); font-size: 38px; color: var(--oip-lime); font-weight: 400; margin-bottom: 40px; border-bottom: 2px solid var(--oip-lime); padding-bottom: 10px; display: inline-block; }
-  .input-group { margin-bottom: 25px; display: flex; flex-direction: column; }
-  .input-label { font-size: 13px; font-weight: 600; color: var(--oip-dark-grey); text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 10px; }
-  .input-field { font-family: var(--primary-font); font-size: 15px; padding: 14px 18px; border: 1px solid var(--oip-border-grey); border-radius: 6px; background-color: #ffffff; transition: border-color 0.2s; }
-  .input-field:focus { outline: none; border-color: var(--oip-lime); box-shadow: 0 0 0 2px rgba(163, 201, 54, 0.15); }
-  .btn-submit { font-family: var(--primary-font); font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.2em; color: #ffffff; background-color: var(--oip-lime); border: none; padding: 18px; border-radius: 8px; width: 100%; cursor: pointer; transition: background-color 0.2s, transform 0.1s; margin-top: 20px; }
-  .btn-submit:hover { background-color: #92b82f; }
+  .form-container { padding: 45px 40px; }
+  
+  .form-title { 
+    font-size: 28px; 
+    color: var(--vh-dark-blue); 
+    font-weight: 800; 
+    margin-bottom: 35px; 
+    text-align: center; 
+  }
+  
+  .input-group { margin-bottom: 22px; display: flex; flex-direction: column; }
+  
+  .input-label { 
+    font-size: 12px; 
+    font-weight: 700; 
+    color: var(--vh-teal); 
+    text-transform: uppercase; 
+    letter-spacing: 0.1em; 
+    margin-bottom: 8px; 
+  }
+  
+  .input-field { 
+    font-size: 15px; 
+    padding: 14px 16px; 
+    border: 2px solid var(--vh-border); 
+    border-radius: 8px; 
+    background-color: var(--vh-white); 
+    color: var(--vh-dark-blue);
+    transition: all 0.3s ease; 
+  }
+  
+  .input-field:focus { 
+    outline: none; 
+    border-color: var(--vh-teal); 
+    box-shadow: 0 0 0 4px rgba(54, 144, 154, 0.15); 
+  }
+  
+  .btn-submit { 
+    font-size: 14px; 
+    font-weight: 700; 
+    text-transform: uppercase; 
+    letter-spacing: 0.15em; 
+    color: var(--vh-dark-blue); 
+    /* Degradado del cian al teal para el botón */
+    background: linear-gradient(135deg, var(--vh-cyan) 0%, var(--vh-teal) 100%); 
+    border: none; 
+    padding: 16px; 
+    border-radius: 8px; 
+    width: 100%; 
+    cursor: pointer; 
+    transition: transform 0.2s, box-shadow 0.2s; 
+    margin-top: 15px; 
+  }
+  
+  .btn-submit:hover { 
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(54, 144, 154, 0.3);
+  }
+  
   .btn-submit:active { transform: scale(0.98); }
 
-  /* Media Queries (Responsividad) */
-  @media (max-width: 768px) {
-    .logo-icon { width: 100px; height: 100px; }
-    .logo-divider { height: 110px; margin: 0 25px; }
-    .logo-acronym { font-size: 110px; }
-    .logo-title { font-size: 18px; letter-spacing: 0.25em; }
-    .logo-slogan { font-size: 11px; letter-spacing: 0.2em; }
-    .form-container { padding: 40px 30px; }
-  }
-
-  @media (max-width: 480px) {
-    .logo-top-section { margin-bottom: 20px; }
-    .logo-icon { width: 70px; height: 70px; }
-    .logo-divider { height: 80px; margin: 0 15px; width: 3px; }
-    .logo-acronym { font-size: 80px; }
-    .logo-title { font-size: 13px; letter-spacing: 0.15em; line-height: 1.5; margin-bottom: 12px; }
-    .logo-slogan { font-size: 9px; letter-spacing: 0.1em; line-height: 1.4; }
-    .form-container { padding: 35px 25px; }
-    .form-title { font-size: 32px; margin-bottom: 30px; }
-  }
 </style>
 </head>
 <body>
 
   <div class="preloader" id="preloader">
-    <div class="logo-wrapper">
-      <div class="logo-top-section">
-   <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-      <polyline points="9 22 9 12 15 12 15 22"></polyline>
-    </svg>
-        <div class="logo-divider"></div>
-        <h1 class="logo-acronym">OIP</h1>
-      </div>
-      <div class="logo-texts">
-        <h2 class="logo-title">OPCIONES INMOBILIARIAS PUEBLA</h2>
-        <p class="logo-slogan">NO VENDEMOS CASAS, CAMBIAMOS VIDAS</p>
-      </div>
+    <div class="logo-container">
+        <div class="glow-effect"></div>
+        <svg viewBox="0 0 100 100" class="logo-svg">
+            <defs>
+                <linearGradient id="logoGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+                    <stop offset="0%" style="stop-color:#145277;stop-opacity:1" />
+                    <stop offset="50%" style="stop-color:#36909a;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#65f0ca;stop-opacity:1" />
+                </linearGradient>
+            </defs>
+            <path class="draw-path" d="M 50 20 L 15 45 L 15 80 L 45 80" fill="none" stroke="url(#logoGrad)" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+            <path class="draw-path" d="M 50 20 L 85 45 L 85 80 L 70 80" fill="none" stroke="url(#logoGrad)" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+            <path class="draw-path" d="M 25 38 L 25 20 L 32 20 L 32 33" fill="none" stroke="url(#logoGrad)" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+            <circle class="draw-path" cx="50" cy="55" r="4" fill="none" stroke="url(#logoGrad)" stroke-width="3"/>
+            <circle class="draw-path" cx="50" cy="55" r="11" fill="none" stroke="url(#logoGrad)" stroke-width="3"/>
+            <circle class="draw-path" cx="50" cy="55" r="18" fill="none" stroke="url(#logoGrad)" stroke-width="3"/>
+            <path class="draw-path" d="M 50 55 L 85 20 M 70 20 L 85 20 L 85 35" fill="none" stroke="url(#logoGrad)" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+            <path class="draw-path" d="M 62 67 L 78 82" fill="none" stroke="url(#logoGrad)" stroke-width="4" stroke-linecap="round"/>
+        </svg>
+        <h1 class="logo-title">VibetuHogar</h1>
+        <p class="logo-subtitle">Espacios que inspiran,<br>hogares que vibran.</p>
     </div>
   </div>
 
@@ -178,11 +283,11 @@
   <div class="auth-screen" id="authScreen">
     <div class="auth-panel">
       <form class="form-container login-form" onsubmit="return false;">
-        <h2 class="form-title">Iniciar sesión</h2>
+        <h2 class="form-title">Bienvenido</h2>
         
         <div class="input-group">
           <label class="input-label" for="loginEmail">Correo electrónico</label>
-          <input type="email" id="loginEmail" class="input-field" placeholder="ejemplo@email.com" required>
+          <input type="email" id="loginEmail" class="input-field" placeholder="ejemplo@vibetu.com" required>
         </div>
 
         <div class="input-group">
@@ -196,13 +301,13 @@
   </div>
 
   <script>
-    const LOADING_DURATION = 3500; 
+    // Tiempo para que termine de dibujarse el logo antes de pasar al login
+    const LOADING_DURATION = 4200; 
 
     function createGeometricShapes() {
       const container = document.getElementById('geometricShapes');
-      // Lista actualizada con las nuevas formas
       const shapeTypes = ['diamond', 'ring', 'hexagon', 'pill'];
-      const numShapes = 35; 
+      const numShapes = 25; // Reduje un poco la cantidad para que se vea más limpio
 
       for (let i = 0; i < numShapes; i++) {
         const shape = document.createElement('div');
@@ -220,7 +325,7 @@
 
     function createParticles() {
       const container = document.getElementById('particles');
-      const numParticles = 80;
+      const numParticles = 60;
 
       for (let i = 0; i < numParticles; i++) {
         const particle = document.createElement('div');
@@ -243,6 +348,7 @@
       createGeometricShapes();
       createParticles();
 
+      // Transición del loader al login
       setTimeout(() => {
         preloader.classList.add('hidden');
         animatedBackground.classList.add('visible');
