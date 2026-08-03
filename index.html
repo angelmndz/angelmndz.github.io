@@ -1,549 +1,954 @@
+
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es-MX">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VibetuHogar - Inmobiliaria</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CUSTODIA · Fianzas y Seguros</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#10233A;
+    --ink-soft:#1B3450;
+    --paper:#F5F1E6;
+    --paper-2:#EEE7D6;
+    --brass:#A67C3D;
+    --brass-light:#C79A56;
+    --emerald:#173F33;
+    --emerald-light:#255949;
+    --rust:#8C3A2B;
+    --line: rgba(16,35,58,0.14);
+    --shadow: 0 20px 50px -20px rgba(16,35,58,0.35);
+    --radius: 2px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'IBM Plex Sans', sans-serif;
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    margin:0;
+    color:var(--ink);
+    letter-spacing:-0.01em;
+  }
+  a{color:inherit;}
+  .mono{font-family:'IBM Plex Mono', monospace; letter-spacing:0.02em;}
+  .wrap{max-width:1180px; margin:0 auto; padding:0 32px;}
+  @media(max-width:640px){.wrap{padding:0 20px;}}
+  img,svg{display:block;}
+  button{font-family:inherit; cursor:pointer;}
+  :focus-visible{outline:2px solid var(--brass); outline-offset:3px;}
 
-    <style>
-        /* === VARIABLES GLOBALES === */
-        :root {
-            --vh-dark-blue: #0d3b66;
-            --vh-teal: #36909a;
-            --vh-cyan: #65f0ca;
-            --vh-bg-light: #f4f8fb;
-            --vh-white: #ffffff;
-        }
+  /* seal texture backdrop */
+  .paper-texture{
+    background-image:
+      radial-gradient(circle at 20% 20%, rgba(16,35,58,0.03) 0, transparent 40%),
+      radial-gradient(circle at 80% 60%, rgba(166,124,61,0.05) 0, transparent 45%);
+  }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
+  /* ---------- HEADER ---------- */
+  header{
+    position:sticky; top:0; z-index:500;
+    background:rgba(245,241,230,0.92);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{
+    display:flex; align-items:center; justify-content:space-between;
+    height:78px;
+  }
+  .logo{
+    display:flex; align-items:center; gap:10px;
+    font-family:'Fraunces', serif; font-weight:600; font-size:22px;
+    text-decoration:none; color:var(--ink);
+  }
+  .logo .mark{width:34px; height:34px; flex-shrink:0;}
+  .logo .tag{
+    font-family:'IBM Plex Mono', monospace; font-size:10px; font-weight:500;
+    letter-spacing:0.14em; text-transform:uppercase; color:var(--brass);
+    display:block; margin-top:1px;
+  }
+  nav.links{display:flex; gap:34px; align-items:center;}
+  nav.links a{
+    text-decoration:none; color:var(--ink-soft); font-size:14.5px; font-weight:500;
+    position:relative; padding:4px 0;
+  }
+  nav.links a::after{
+    content:""; position:absolute; left:0; bottom:0; height:1px; width:0;
+    background:var(--brass); transition:width .25s ease;
+  }
+  nav.links a:hover::after{width:100%;}
+  .nav-right{display:flex; align-items:center; gap:22px;}
+  .phone-link{display:flex; align-items:center; gap:8px; font-size:14px; text-decoration:none; color:var(--ink); font-weight:500;}
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    padding:13px 24px; border-radius:var(--radius); border:1px solid transparent;
+    font-size:14px; font-weight:600; letter-spacing:0.01em; text-decoration:none;
+    transition:transform .18s ease, box-shadow .18s ease, background .18s ease;
+  }
+  .btn-primary{background:var(--emerald); color:var(--paper);}
+  .btn-primary:hover{background:var(--emerald-light); transform:translateY(-1px); box-shadow:var(--shadow);}
+  .btn-outline{background:transparent; border-color:var(--ink); color:var(--ink);}
+  .btn-outline:hover{background:var(--ink); color:var(--paper);}
+  .btn-brass{background:var(--brass); color:var(--ink);}
+  .btn-brass:hover{background:var(--brass-light); transform:translateY(-1px);}
+  .menu-toggle{display:none; background:none; border:none; color:var(--ink);}
 
-        body { 
-            background-color: var(--vh-bg-light); 
-            display: flex; 
-            flex-direction: column; 
-            min-height: 100vh; 
-            overflow-x: hidden; 
-        }
-        
-        /* Clase para bloquear el scroll mientras carga */
-        body.no-scroll {
-            overflow: hidden;
-        }
+  @media(max-width:920px){
+    nav.links{display:none;}
+    .phone-link{display:none;}
+    .menu-toggle{display:block;}
+  }
 
-        main { flex: 1; padding-top: 100px; width: 100%; }
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative; overflow:hidden;
+    padding:100px 0 90px;
+    border-bottom:1px solid var(--line);
+  }
+  .hero-grid{
+    display:grid; grid-template-columns:1.1fr 0.9fr; gap:60px; align-items:center;
+  }
+  @media(max-width:920px){.hero-grid{grid-template-columns:1fr; gap:56px;}}
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'IBM Plex Mono', monospace; font-size:11.5px; letter-spacing:0.14em;
+    text-transform:uppercase; color:var(--emerald); font-weight:500;
+    padding:7px 14px; border:1px solid var(--emerald); border-radius:20px;
+    margin-bottom:26px;
+  }
+  .eyebrow .dot{width:6px; height:6px; border-radius:50%; background:var(--rust);}
+  .hero h1{
+    font-size:clamp(38px, 5.4vw, 64px); line-height:1.04; font-weight:600;
+    margin-bottom:24px;
+  }
+  .hero h1 em{font-style:italic; color:var(--brass); font-weight:500;}
+  .hero p.lead{
+    font-size:18px; color:var(--ink-soft); max-width:480px; margin-bottom:36px;
+  }
+  .hero-cta{display:flex; gap:16px; flex-wrap:wrap; margin-bottom:48px;}
+  .trust-row{
+    display:flex; gap:36px; flex-wrap:wrap; padding-top:28px; border-top:1px solid var(--line);
+  }
+  .trust-item{}
+  .trust-item .num{font-family:'Fraunces', serif; font-size:26px; font-weight:600; color:var(--emerald);}
+  .trust-item .lbl{font-size:12.5px; color:var(--ink-soft); max-width:140px;}
 
-        /* =========================================
-           === PANTALLA DE CARGA (PRELOADER) ===
-           ========================================= */
-        #preloader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background-color: var(--vh-bg-light);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 2000;
-            transition: opacity 0.8s ease-in-out, visibility 0.8s;
-        }
+  /* seal graphic */
+  .seal-wrap{position:relative; display:flex; align-items:center; justify-content:center;}
+  .seal-plate{
+    position:relative; width:100%; max-width:420px; aspect-ratio:1;
+    background: radial-gradient(circle at 35% 30%, #1c3f56, var(--ink) 68%);
+    border-radius:50%;
+    box-shadow: var(--shadow), inset 0 0 0 1px rgba(255,255,255,0.05);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .seal-ring{
+    position:absolute; inset:14px; border-radius:50%;
+    border:1px dashed rgba(199,154,86,0.5);
+    animation:spin 40s linear infinite;
+  }
+  @media (prefers-reduced-motion: reduce){ .seal-ring{animation:none;} }
+  @keyframes spin{ to{ transform:rotate(360deg);} }
+  .seal-core{
+    width:72%; height:72%; border-radius:50%;
+    background:linear-gradient(160deg, var(--brass-light), var(--brass) 60%, #7d5b28);
+    display:flex; align-items:center; justify-content:center; text-align:center;
+    box-shadow: inset 0 4px 14px rgba(0,0,0,0.35), inset 0 -4px 10px rgba(255,255,255,0.15);
+  }
+  .seal-core .inner{color:var(--ink); font-family:'Fraunces', serif;}
+  .seal-core .inner .big{font-size:15px; font-weight:700; letter-spacing:0.08em;}
+  .seal-core .inner .small{font-family:'IBM Plex Mono', monospace; font-size:9px; letter-spacing:0.16em; margin-top:4px; text-transform:uppercase;}
+  .seal-badge{
+    position:absolute; bottom:-14px; left:50%; transform:translateX(-50%);
+    background:var(--paper); border:1px solid var(--line); border-radius:30px;
+    padding:9px 18px; font-size:12px; font-weight:600; box-shadow:var(--shadow);
+    display:flex; align-items:center; gap:8px; white-space:nowrap;
+  }
 
-        #preloader.hidden {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-        }
+  /* ---------- SECTION SHARED ---------- */
+  section{padding:100px 0;}
+  .section-head{max-width:640px; margin-bottom:56px;}
+  .section-head .kicker{
+    font-family:'IBM Plex Mono', monospace; font-size:11.5px; letter-spacing:0.16em;
+    text-transform:uppercase; color:var(--brass); font-weight:600; margin-bottom:14px; display:block;
+  }
+  .section-head h2{font-size:clamp(28px,3.4vw,40px); line-height:1.12;}
+  .section-head p{color:var(--ink-soft); margin-top:16px; font-size:16px;}
 
-        .logo-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: relative;
-        }
+  /* ---------- SERVICIOS ---------- */
+  .servicios{background:var(--ink); color:var(--paper);}
+  .servicios .section-head h2{color:var(--paper);}
+  .servicios .section-head p{color:rgba(245,241,230,0.65);}
+  .servicios .kicker{color:var(--brass-light);}
+  .service-columns{display:grid; grid-template-columns:1fr 1fr; gap:2px; background:rgba(245,241,230,0.14);}
+  @media(max-width:800px){.service-columns{grid-template-columns:1fr;}}
+  .service-col{background:var(--ink); padding:36px;}
+  .service-col h3{
+    color:var(--paper); font-size:13px; font-family:'IBM Plex Mono', monospace;
+    letter-spacing:0.14em; text-transform:uppercase; margin-bottom:26px; color:var(--brass-light);
+  }
+  .service-item{
+    display:flex; gap:16px; padding:20px 0; border-top:1px solid rgba(245,241,230,0.12);
+  }
+  .service-item:first-of-type{border-top:none;}
+  .service-item svg{flex-shrink:0; width:24px; height:24px; margin-top:2px; color:var(--brass-light);}
+  .service-item h4{color:var(--paper); font-size:17px; font-weight:500; margin-bottom:6px;}
+  .service-item p{color:rgba(245,241,230,0.6); font-size:14px; margin:0;}
 
-        .glow-effect {
-            position: absolute;
-            top: 10%;
-            width: 120px;
-            height: 120px;
-            background: radial-gradient(circle, rgba(92,237,196,0.3) 0%, rgba(255,255,255,0) 70%);
-            border-radius: 50%;
-            z-index: 0;
-            animation: pulseGlow 2s infinite alternate ease-in-out;
-        }
+  /* ---------- STATS ---------- */
+  .stats{padding:70px 0; border-bottom:1px solid var(--line); border-top:1px solid var(--line);}
+  .stats-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:40px;}
+  @media(max-width:800px){.stats-grid{grid-template-columns:repeat(2,1fr);}}
+  .stat .num{font-family:'Fraunces', serif; font-size:44px; font-weight:600; color:var(--emerald);}
+  .stat .lbl{font-size:13.5px; color:var(--ink-soft); margin-top:6px;}
 
-        .logo-svg {
-            width: 150px;
-            height: 150px;
-            z-index: 1;
-            filter: drop-shadow(0px 4px 6px rgba(0,0,0,0.05));
-        }
+  /* ---------- PROCESO ---------- */
+  .proceso-list{border-top:1px solid var(--line);}
+  .proc-item{
+    display:grid; grid-template-columns:120px 1fr; gap:32px;
+    padding:38px 0; border-bottom:1px solid var(--line);
+  }
+  @media(max-width:700px){.proc-item{grid-template-columns:60px 1fr;}}
+  .proc-item .art{
+    font-family:'IBM Plex Mono', monospace; color:var(--brass); font-size:14px; font-weight:500; letter-spacing:0.06em;
+  }
+  .proc-item h3{font-size:22px; margin-bottom:8px;}
+  .proc-item p{color:var(--ink-soft); max-width:520px; margin:0;}
 
-        .draw-path {
-            stroke-dasharray: 300;
-            stroke-dashoffset: 300;
-            animation: draw 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-        }
+  /* ---------- FAQ ---------- */
+  .faq{background:var(--paper-2);}
+  .faq-item{border-bottom:1px solid var(--line);}
+  .faq-item:first-child{border-top:1px solid var(--line);}
+  .faq-q{
+    width:100%; background:none; border:none; text-align:left;
+    display:flex; align-items:center; justify-content:space-between; gap:20px;
+    padding:24px 4px; font-family:'Fraunces', serif; font-size:19px; color:var(--ink);
+  }
+  .faq-q .plus{
+    flex-shrink:0; width:26px; height:26px; border:1px solid var(--ink); border-radius:50%;
+    position:relative; transition:transform .25s ease, background .25s ease;
+  }
+  .faq-q .plus::before, .faq-q .plus::after{
+    content:""; position:absolute; background:var(--ink); top:50%; left:50%; transform:translate(-50%,-50%);
+  }
+  .faq-q .plus::before{width:10px; height:1.4px;}
+  .faq-q .plus::after{width:1.4px; height:10px; transition:opacity .2s ease;}
+  .faq-item.open .plus{background:var(--emerald); border-color:var(--emerald);}
+  .faq-item.open .plus::before,.faq-item.open .plus::after{background:var(--paper);}
+  .faq-item.open .plus::after{opacity:0;}
+  .faq-a{max-height:0; overflow:hidden; transition:max-height .35s ease;}
+  .faq-a p{padding:0 4px 26px; color:var(--ink-soft); max-width:640px; margin:0;}
 
-        .logo-title-preloader {
-            color: var(--vh-dark-blue);
-            font-size: 2.2rem;
-            font-weight: 800;
-            margin-top: 10px;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInUp 0.8s ease 1.5s forwards;
-            z-index: 1;
-        }
+  /* ---------- CONTACTO ---------- */
+  .contacto-grid{display:grid; grid-template-columns:0.9fr 1.1fr; gap:60px;}
+  @media(max-width:900px){.contacto-grid{grid-template-columns:1fr;}}
+  .contact-info-item{display:flex; gap:16px; margin-bottom:28px;}
+  .contact-info-item svg{width:22px; height:22px; color:var(--brass); flex-shrink:0; margin-top:3px;}
+  .contact-info-item h4{font-size:15px; margin-bottom:4px;}
+  .contact-info-item p{margin:0; color:var(--ink-soft); font-size:14.5px;}
 
-        .logo-subtitle {
-            color: #555;
-            font-size: 0.95rem;
-            font-weight: 500;
-            text-align: center;
-            line-height: 1.4;
-            margin-top: 5px;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInUp 0.8s ease 1.8s forwards;
-            z-index: 1;
-        }
+  .form-card{
+    background:var(--ink); color:var(--paper); padding:44px; position:relative; overflow:hidden;
+  }
+  .form-card::before{
+    content:""; position:absolute; top:0; right:0; width:140px; height:140px;
+    background:radial-gradient(circle, rgba(166,124,61,0.35), transparent 70%);
+  }
+  .form-row{display:grid; grid-template-columns:1fr 1fr; gap:18px;}
+  @media(max-width:520px){.form-row{grid-template-columns:1fr;}}
+  .field{margin-bottom:20px;}
+  .field label{display:block; font-size:12.5px; font-family:'IBM Plex Mono', monospace; letter-spacing:0.06em; text-transform:uppercase; color:var(--brass-light); margin-bottom:8px;}
+  .field input, .field select, .field textarea{
+    width:100%; background:rgba(245,241,230,0.06); border:1px solid rgba(245,241,230,0.22);
+    color:var(--paper); padding:13px 14px; font-family:'IBM Plex Sans', sans-serif; font-size:14.5px; border-radius:var(--radius);
+  }
+  .field select option{color:var(--ink);}
+  .field input::placeholder, .field textarea::placeholder{color:rgba(245,241,230,0.35);}
+  .field input:focus, .field select:focus, .field textarea:focus{
+    outline:none; border-color:var(--brass-light); background:rgba(245,241,230,0.1);
+  }
+  .field textarea{resize:vertical; min-height:100px;}
+  .checkline{display:flex; gap:10px; align-items:flex-start; margin-bottom:26px; font-size:13px; color:rgba(245,241,230,0.7);}
+  .checkline input{margin-top:3px;}
+  .form-error{color:#E7A38C; font-size:12.5px; margin-top:-14px; margin-bottom:16px; display:none;}
+  .submit-btn{width:100%; padding:16px; font-size:15px;}
 
-        @keyframes draw { to { stroke-dashoffset: 0; } }
-        @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
-        @keyframes pulseGlow { from { transform: scale(1); opacity: 0.5; } to { transform: scale(1.5); opacity: 1; } }
+  .success-stamp{
+    display:none; text-align:center; padding:40px 10px;
+  }
+  .success-stamp.show{display:block;}
+  .stamp-mark{
+    width:96px; height:96px; margin:0 auto 20px; border:3px solid var(--brass-light); border-radius:50%;
+    display:flex; align-items:center; justify-content:center; transform:rotate(-8deg) scale(0);
+    animation:stampIn .5s cubic-bezier(.2,1.4,.4,1) forwards;
+  }
+  @keyframes stampIn{ to{ transform:rotate(-8deg) scale(1);} }
+  .stamp-mark svg{width:44px; height:44px; color:var(--brass-light);}
+  .success-stamp h3{color:var(--paper); font-size:20px; margin-bottom:8px;}
+  .success-stamp p{color:rgba(245,241,230,0.65); font-size:14px; margin:0 0 4px;}
+  .success-stamp .ref{color:var(--brass-light); font-family:'IBM Plex Mono', monospace; font-size:13px;}
 
-        /* === HEADER DESKTOP === */
-        .site-header {
-            position: fixed; top: 0; left: 0; width: 100%; padding: 20px 5%;
-            display: flex; justify-content: space-between; align-items: center;
-            z-index: 1000; transition: all 0.4s ease-in-out; background-color: transparent; 
-        }
+  /* ---------- FOOTER ---------- */
+  footer{background:var(--emerald); color:rgba(245,241,230,0.85); padding:70px 0 30px;}
+  .footer-grid{display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:40px; padding-bottom:50px; border-bottom:1px solid rgba(245,241,230,0.15);}
+  @media(max-width:800px){.footer-grid{grid-template-columns:1fr 1fr; row-gap:36px;}}
+  .footer-grid h5{font-family:'IBM Plex Mono', monospace; font-size:12px; letter-spacing:0.1em; text-transform:uppercase; color:var(--brass-light); margin-bottom:16px; font-weight:500;}
+  .footer-grid ul{list-style:none; padding:0; margin:0;}
+  .footer-grid li{margin-bottom:10px; font-size:14px;}
+  .footer-grid a{text-decoration:none; opacity:0.85;}
+  .footer-grid a:hover{opacity:1; text-decoration:underline;}
+  .footer-bottom{display:flex; justify-content:space-between; align-items:center; padding-top:24px; font-size:12.5px; color:rgba(245,241,230,0.55); flex-wrap:wrap; gap:12px;}
+  .footer-logo{display:flex; align-items:center; gap:10px; font-family:'Fraunces', serif; font-size:20px; color:var(--paper); margin-bottom:14px;}
+  .footer-desc{font-size:13.5px; color:rgba(245,241,230,0.6); max-width:280px;}
 
-        .site-header.scrolled {
-            background-color: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px);
-            padding: 15px 5%; box-shadow: 0 4px 20px rgba(13, 59, 102, 0.08);
-        }
+  /* ---------- CHATBOT ---------- */
+  #chat-toggle{
+    position:fixed; bottom:26px; right:26px; z-index:900;
+    width:64px; height:64px; border-radius:50%; border:none;
+    background:var(--brass); color:var(--ink); box-shadow:var(--shadow);
+    display:flex; align-items:center; justify-content:center;
+    transition:transform .2s ease;
+  }
+  #chat-toggle:hover{transform:scale(1.06);}
+  #chat-toggle svg{width:26px; height:26px;}
+  #chat-toggle .ping{
+    position:absolute; top:-3px; right:-3px; width:14px; height:14px; background:var(--rust);
+    border-radius:50%; border:2px solid var(--paper);
+  }
+  #chat-panel{
+    position:fixed; bottom:26px; right:26px; z-index:950;
+    width:370px; max-width:calc(100vw - 40px); height:min(560px, calc(100vh - 100px));
+    background:var(--paper); border-radius:6px; box-shadow:0 30px 70px -20px rgba(16,35,58,0.5);
+    display:flex; flex-direction:column; overflow:hidden;
+    transform:translateY(20px) scale(0.97); opacity:0; pointer-events:none;
+    transition:transform .25s ease, opacity .25s ease;
+    border:1px solid var(--line);
+  }
+  #chat-panel.open{transform:translateY(0) scale(1); opacity:1; pointer-events:all;}
+  .chat-head{
+    background:var(--ink); color:var(--paper); padding:18px 20px;
+    display:flex; align-items:center; gap:12px;
+  }
+  .chat-head .avatar{
+    width:38px; height:38px; border-radius:50%; background:var(--brass);
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .chat-head .avatar svg{width:20px; height:20px; color:var(--ink);}
+  .chat-head .who{flex:1;}
+  .chat-head .who .name{font-family:'Fraunces', serif; font-size:15.5px; font-weight:600;}
+  .chat-head .who .status{font-size:11.5px; color:rgba(245,241,230,0.6); display:flex; align-items:center; gap:6px;}
+  .chat-head .who .status::before{content:""; width:6px; height:6px; border-radius:50%; background:#5AC28A; display:inline-block;}
+  .chat-head button{background:none; border:none; color:var(--paper); opacity:0.7;}
+  .chat-head button:hover{opacity:1;}
+  .chat-body{flex:1; overflow-y:auto; padding:18px; display:flex; flex-direction:column; gap:14px; background:var(--paper-2);}
+  .msg{max-width:84%; padding:11px 14px; border-radius:4px; font-size:14px; line-height:1.5;}
+  .msg.bot{background:#fff; border:1px solid var(--line); align-self:flex-start; border-bottom-left-radius:0;}
+  .msg.user{background:var(--emerald); color:var(--paper); align-self:flex-end; border-bottom-right-radius:0;}
+  .chips{display:flex; flex-wrap:wrap; gap:8px; align-self:flex-start; max-width:100%;}
+  .chip{
+    background:#fff; border:1px solid var(--brass); color:var(--ink);
+    font-size:12.5px; padding:8px 12px; border-radius:20px; text-align:left;
+  }
+  .chip:hover{background:var(--brass); color:var(--ink);}
+  .typing{display:flex; gap:4px; align-self:flex-start; background:#fff; border:1px solid var(--line); padding:12px 16px; border-radius:4px; border-bottom-left-radius:0;}
+  .typing span{width:6px; height:6px; background:var(--ink-soft); border-radius:50%; opacity:0.4; animation:blink 1.2s infinite;}
+  .typing span:nth-child(2){animation-delay:.2s;} .typing span:nth-child(3){animation-delay:.4s;}
+  @keyframes blink{0%,60%,100%{opacity:0.3;} 30%{opacity:1;}}
+  .chat-input{display:flex; gap:8px; padding:14px; background:#fff; border-top:1px solid var(--line);}
+  .chat-input input{
+    flex:1; border:1px solid var(--line); border-radius:20px; padding:11px 16px; font-size:14px; font-family:inherit;
+  }
+  .chat-input input:focus{outline:none; border-color:var(--brass);}
+  .chat-input button{
+    width:40px; height:40px; border-radius:50%; border:none; background:var(--emerald); color:var(--paper);
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .chat-input button svg{width:17px; height:17px;}
 
-        .header-logo { font-size: 1.6rem; font-weight: 800; color: var(--vh-dark-blue); text-decoration: none; }
-        .header-logo span { color: var(--vh-teal); }
-
-        /* Contenedor del menú para PC */
-        .nav-wrapper { display: flex; align-items: center; gap: 30px; }
-
-        .header-nav { display: flex; gap: 25px; }
-        .header-nav a { text-decoration: none; color: var(--vh-dark-blue); font-weight: 600; font-size: 0.95rem; transition: color 0.3s; position: relative; }
-        .header-nav a:hover { color: var(--vh-teal); }
-        .header-nav a::after { content: ''; position: absolute; width: 0; height: 2px; bottom: -4px; left: 0; background-color: var(--vh-teal); transition: width 0.3s; }
-        .header-nav a:hover::after { width: 100%; }
-
-        .auth-buttons { display: flex; align-items: center; gap: 15px; }
-        .btn-login { color: var(--vh-dark-blue); font-weight: 700; text-decoration: none; font-size: 0.9rem; transition: color 0.3s; }
-        .btn-login:hover { color: var(--vh-teal); }
-        .btn-register { background: linear-gradient(135deg, var(--vh-cyan) 0%, var(--vh-teal) 100%); color: var(--vh-dark-blue); font-weight: 700; text-decoration: none; padding: 10px 22px; border-radius: 8px; transition: transform 0.2s, box-shadow 0.2s; }
-        .btn-register:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(54, 144, 154, 0.3); }
-
-        /* Botón Hamburguesa (Oculto en PC) */
-        .menu-toggle {
-            display: none; flex-direction: column; justify-content: space-between;
-            width: 30px; height: 21px; cursor: pointer; z-index: 1001;
-        }
-        .menu-toggle span {
-            display: block; width: 100%; height: 3px; background-color: var(--vh-dark-blue);
-            border-radius: 3px; transition: all 0.3s ease;
-        }
-
-        /* =========================================================
-           === CSS RESPONSIVO EXTRA (MÓVILES Y TABLETS) - HEADER ===
-           ========================================================= */
-        @media (max-width: 992px) {
-            .menu-toggle { display: flex; } /* Mostramos la hamburguesa */
-            
-            /* El nav-wrapper se convierte en un panel lateral oculto */
-            .nav-wrapper {
-                position: fixed; top: 0; right: -100%; width: 280px; height: 100vh;
-                background-color: var(--vh-white); box-shadow: -5px 0 20px rgba(0,0,0,0.1);
-                flex-direction: column; justify-content: flex-start; align-items: flex-start;
-                padding: 80px 30px 30px 30px; transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-                overflow-y: auto;
-            }
-
-            /* Clase activa para mostrar el menú */
-            .nav-wrapper.active { right: 0; }
-
-            .header-nav { flex-direction: column; gap: 20px; width: 100%; margin-bottom: 30px; }
-            .header-nav a { font-size: 1.1rem; width: 100%; display: block; border-bottom: 1px solid #eee; padding-bottom: 10px; }
-            .header-nav a::after { display: none; } /* Quitamos la rayita en móvil */
-
-            .auth-buttons { flex-direction: column; width: 100%; gap: 15px; align-items: flex-start; }
-            .btn-login { padding: 10px 0; width: 100%; text-align: left; }
-            .btn-register { width: 100%; text-align: center; }
-
-            /* Animación de la hamburguesa a "X" */
-            .menu-toggle.active span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
-            .menu-toggle.active span:nth-child(2) { opacity: 0; }
-            .menu-toggle.active span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
-            
-            /* Fondo oscuro al abrir el menú */
-            .menu-overlay {
-                position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-                background: rgba(13, 59, 102, 0.5); z-index: 999;
-                opacity: 0; visibility: hidden; transition: all 0.3s; backdrop-filter: blur(3px);
-            }
-            .menu-overlay.active { opacity: 1; visibility: visible; }
-        }
-
-        /* === ESTILOS DEL HERO Y BUSCADOR === */
-        .hero-section { position: relative; width: 100%; min-height: 85vh; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 0 5%; overflow: hidden; background-color: var(--vh-bg-light); margin-top: -100px; padding-top: 100px; }
-        .hero-content { position: relative; z-index: 10; text-align: center; max-width: 900px; width: 100%; }
-        .hero-title { color: var(--vh-dark-blue); font-size: 3.5rem; font-weight: 800; line-height: 1.2; margin-bottom: 20px; }
-        .hero-subtitle { color: #555; font-size: 1.1rem; font-weight: 500; margin-bottom: 40px; }
-        
-        .main-search-bar { background: var(--vh-white); padding: 10px; border-radius: 60px; box-shadow: 0 15px 40px rgba(13, 59, 102, 0.12); display: flex; align-items: center; gap: 10px; border: 1px solid rgba(54, 144, 154, 0.2); transition: transform 0.3s ease, box-shadow 0.3s ease; }
-        .main-search-bar:hover { transform: translateY(-3px); box-shadow: 0 20px 50px rgba(13, 59, 102, 0.18); }
-        .search-group { display: flex; align-items: center; flex: 1; padding: 0 20px; border-right: 1px solid #e1e8ed; }
-        .search-group:last-child { border-right: none; }
-        .search-icon { font-size: 1.2rem; margin-right: 15px; }
-        .search-input, .search-select { border: none; outline: none; width: 100%; font-size: 1rem; color: var(--vh-dark-blue); background: transparent; }
-        .search-select { cursor: pointer; appearance: none; }
-        .btn-search { background: linear-gradient(135deg, var(--vh-cyan) 0%, var(--vh-teal) 100%); color: var(--vh-dark-blue); border: none; padding: 18px 40px; border-radius: 50px; font-weight: 700; font-size: 1rem; cursor: pointer; transition: opacity 0.2s; height: 100%; }
-        .btn-search:hover { opacity: 0.9; }
-        .btn-map { display: flex; align-items: center; gap: 8px; color: var(--vh-teal); text-decoration: none; font-weight: 600; margin-top: 20px; font-size: 0.95rem; justify-content: center; transition: color 0.3s; }
-        
-        .hero-animated-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; z-index: 1; opacity: 0; transition: opacity 1s ease-in; }
-        .hero-animated-bg.visible { opacity: 1; }
-        .shape { position: absolute; filter: blur(1px); }
-        .diamond { width: 50px; height: 50px; background: rgba(13, 59, 102, 0.05); animation: rotateShape 25s infinite linear; }
-        .ring { width: 80px; height: 80px; border-radius: 50%; border: 6px solid rgba(54, 144, 154, 0.1); background: transparent; animation: pulseShape 18s infinite alternate; }
-        .hexagon { width: 70px; height: 75px; background: rgba(101, 240, 202, 0.15); clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); animation: floatShape 15s infinite ease-in-out; }
-
-        @keyframes rotateShape { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        @keyframes pulseShape { 0% { transform: scale(1); opacity: 0.5; } 50% { transform: scale(1.2); opacity: 1; } 100% { transform: scale(1); opacity: 0.5; } }
-        @keyframes floatShape { 0% { transform: translateY(0px) rotate(0deg); } 50% { transform: translateY(-40px) rotate(180deg); } 100% { transform: translateY(0px) rotate(360deg); } }
-
-        /* =========================================================
-           === SISTEMA DE ANIMACIONES DE ENTRADA (FADE UP) ===
-           ========================================================= */
-        .fade-up-element {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        
-        .fade-up-element.is-visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .delay-1 { transition-delay: 0.1s; }
-        .delay-2 { transition-delay: 0.3s; }
-        .delay-3 { transition-delay: 0.5s; }
-
-        /* =========================================================
-           === CSS RESPONSIVO EXTRA (MÓVILES Y TABLETS) - INDEX ===
-           ========================================================= */
-        @media (max-width: 768px) {
-            .hero-title { font-size: 2.2rem; margin-top: 40px;}
-            .hero-subtitle { font-size: 1rem; }
-            
-            .main-search-bar { flex-direction: column; border-radius: 20px; padding: 20px; gap: 15px; }
-            .search-group { border-right: none; border-bottom: 1px solid #e1e8ed; padding: 10px 0; width: 100%; }
-            .search-group:last-of-type { border-bottom: none; margin-bottom: 10px; }
-            .btn-search { width: 100%; border-radius: 12px; padding: 15px; }
-            
-            .properties-grid { grid-template-columns: 1fr !important; }
-        }
-
-        /* === ESTILOS DEL FOOTER === */
-        .site-footer {
-            background-color: var(--vh-dark-blue);
-            color: var(--vh-white);
-            padding: 50px 5% 20px 5%;
-            margin-top: auto; 
-        }
-
-        .footer-grid {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 30px;
-            margin-bottom: 40px;
-        }
-
-        .footer-col {
-            flex: 1;
-            min-width: 250px;
-        }
-
-        .footer-col h3 {
-            color: var(--vh-cyan);
-            font-size: 1.4rem;
-            margin-bottom: 15px;
-            font-weight: 800;
-        }
-
-        .footer-col p {
-            color: #d1dce5;
-            font-size: 0.95rem;
-            line-height: 1.6;
-            margin-bottom: 10px;
-        }
-
-        .footer-links {
-            list-style: none;
-        }
-        .footer-links li {
-            margin-bottom: 10px;
-        }
-        .footer-links a {
-            color: #d1dce5;
-            text-decoration: none;
-            font-size: 0.95rem;
-            transition: color 0.3s;
-        }
-        .footer-links a:hover {
-            color: var(--vh-cyan);
-        }
-
-        .footer-bottom {
-            text-align: center;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: #8c9ba5;
-            font-size: 0.85rem;
-        }
-    </style>
+  .reveal{opacity:0; transform:translateY(16px); transition:opacity .6s ease, transform .6s ease;}
+  .reveal.in{opacity:1; transform:translateY(0);}
+</style>
 </head>
-<body class="no-scroll">
+<body>
 
-    <div class="preloader" id="preloader">
-        <div class="logo-container">
-            <div class="glow-effect"></div>
-            <svg viewBox="0 0 100 100" class="logo-svg">
-                <defs>
-                    <linearGradient id="logoGrad" x1="0%" y1="100%" x2="100%" y2="0%">
-                        <stop offset="0%" style="stop-color:#145277;stop-opacity:1" />
-                        <stop offset="50%" style="stop-color:#36909a;stop-opacity:1" />
-                        <stop offset="100%" style="stop-color:#65f0ca;stop-opacity:1" />
-                    </linearGradient>
-                </defs>
-                <path class="draw-path" d="M 50 20 L 15 45 L 15 80 L 45 80" fill="none" stroke="url(#logoGrad)" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
-                <path class="draw-path" d="M 50 20 L 85 45 L 85 80 L 70 80" fill="none" stroke="url(#logoGrad)" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
-                <path class="draw-path" d="M 25 38 L 25 20 L 32 20 L 32 33" fill="none" stroke="url(#logoGrad)" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
-                <circle class="draw-path" cx="50" cy="55" r="4" fill="none" stroke="url(#logoGrad)" stroke-width="3"/>
-                <circle class="draw-path" cx="50" cy="55" r="11" fill="none" stroke="url(#logoGrad)" stroke-width="3"/>
-                <circle class="draw-path" cx="50" cy="55" r="18" fill="none" stroke="url(#logoGrad)" stroke-width="3"/>
-                <path class="draw-path" d="M 50 55 L 85 20 M 70 20 L 85 20 L 85 35" fill="none" stroke="url(#logoGrad)" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
-                <path class="draw-path" d="M 62 67 L 78 82" fill="none" stroke="url(#logoGrad)" stroke-width="4" stroke-linecap="round"/>
-            </svg>
-            <h1 class="logo-title-preloader">VibetuHogar</h1>
-            <p class="logo-subtitle">Espacios que inspiran,<br>hogares que vibran.</p>
+<!-- ============ HEADER ============ -->
+<header>
+  <div class="wrap nav">
+    <a href="#top" class="logo">
+      <svg class="mark" viewBox="0 0 40 40" fill="none">
+        <circle cx="20" cy="20" r="19" stroke="#A67C3D" stroke-width="1.4"/>
+        <circle cx="20" cy="20" r="12.5" fill="#A67C3D"/>
+        <path d="M14 20.5L18 24.5L26.5 15.5" stroke="#10233A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span>CUSTODIA<span class="tag">Fianzas &amp; Seguros</span></span>
+    </a>
+    <nav class="links">
+      <a href="#servicios">Servicios</a>
+      <a href="#nosotros">Nosotros</a>
+      <a href="#proceso">Proceso</a>
+      <a href="#preguntas">Preguntas</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+    <div class="nav-right">
+      <a class="phone-link" href="tel:+522221234567">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        (222) 123 4567
+      </a>
+      <a href="#contacto" class="btn btn-primary">Cotizar ahora</a>
+      <button class="menu-toggle" aria-label="Abrir menú" onclick="document.getElementById('mnav').classList.toggle('open')">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+      </button>
+    </div>
+  </div>
+  <div id="mnav" style="display:none;" class="wrap">
+    <style>#mnav.open{display:block !important;}</style>
+    <div style="display:flex;flex-direction:column;gap:4px;padding:10px 0 20px;border-top:1px solid var(--line);">
+      <a style="padding:10px 0;text-decoration:none;color:var(--ink);" href="#servicios">Servicios</a>
+      <a style="padding:10px 0;text-decoration:none;color:var(--ink);" href="#nosotros">Nosotros</a>
+      <a style="padding:10px 0;text-decoration:none;color:var(--ink);" href="#proceso">Proceso</a>
+      <a style="padding:10px 0;text-decoration:none;color:var(--ink);" href="#preguntas">Preguntas</a>
+      <a style="padding:10px 0;text-decoration:none;color:var(--ink);" href="#contacto">Contacto</a>
+    </div>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<div id="top"></div>
+<section class="hero paper-texture">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow"><span class="dot"></span> Autorizados ante la CNSF</span>
+      <h1>Garantizamos<br>tu <em>palabra</em>.</h1>
+      <p class="lead">Fianzas y seguros para empresas y particulares en Puebla y todo México. Cotización clara, expedición ágil y un asesor real detrás de cada póliza.</p>
+      <div class="hero-cta">
+        <a href="#contacto" class="btn btn-primary">Cotizar mi póliza</a>
+        <button class="btn btn-outline" onclick="openChat()">Hablar con el asesor digital</button>
+      </div>
+      <div class="trust-row">
+        <div class="trust-item"><div class="num">15+</div><div class="lbl">años afianzando y asegurando proyectos</div></div>
+        <div class="trust-item"><div class="num">3,200</div><div class="lbl">pólizas y fianzas vigentes</div></div>
+        <div class="trust-item"><div class="num">24 h</div><div class="lbl">tiempo promedio de respuesta</div></div>
+      </div>
+    </div>
+    <div class="seal-wrap">
+      <div class="seal-plate">
+        <div class="seal-ring"></div>
+        <div class="seal-core">
+          <div class="inner">
+            <div class="big">CUSTODIA</div>
+            <div class="small">Fianzas · Seguros · Garantía</div>
+          </div>
         </div>
+        <div class="seal-badge">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#173F33" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg>
+          Póliza expedida y sellada
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SERVICIOS ============ -->
+<section class="servicios" id="servicios">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker">Artículo I · Coberturas</span>
+      <h2>Dos ramos, una misma garantía</h2>
+      <p>Emitimos fianzas que respaldan tus obligaciones contractuales y seguros que protegen tu patrimonio ante lo imprevisto.</p>
+    </div>
+    <div class="service-columns">
+      <div class="service-col">
+        <h3>Fianzas</h3>
+        <div class="service-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2l8 4v6c0 5-3.4 8.5-8 10-4.6-1.5-8-5-8-10V6l8-4z"/></svg>
+          <div><h4>Fianzas de cumplimiento</h4><p>Garantizan que un contrato se ejecute conforme a lo pactado, en obra pública o privada.</p></div>
+        </div>
+        <div class="service-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="1"/><path d="M8 2v4M16 2v4M3 10h18"/></svg>
+          <div><h4>Fianzas judiciales</h4><p>Cubren procesos legales: fianzas para apelar, para embargos o para libertad provisional.</p></div>
+        </div>
+        <div class="service-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2v20M2 12h20"/><circle cx="12" cy="12" r="9"/></svg>
+          <div><h4>Fianzas administrativas</h4><p>Anticipo, vicios ocultos y sostenimiento de oferta para licitaciones y trámites de gobierno.</p></div>
+        </div>
+        <div class="service-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12l6 6L21 6"/></svg>
+          <div><h4>Fianzas de crédito</h4><p>Respaldan obligaciones de pago frente a proveedores, arrendadores o instituciones financieras.</p></div>
+        </div>
+      </div>
+      <div class="service-col">
+        <h3>Seguros</h3>
+        <div class="service-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M19 17h2l-1.5-4.5L17 5H7L5.5 12.5 4 17h2"/><circle cx="7.5" cy="17.5" r="1.8"/><circle cx="16.5" cy="17.5" r="1.8"/></svg>
+          <div><h4>Seguro de auto</h4><p>Cobertura amplia, limitada o de responsabilidad civil, con asistencia vial las 24 horas.</p></div>
+        </div>
+        <div class="service-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 1 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
+          <div><h4>Seguro de vida</h4><p>Protección económica para tu familia, con planes de ahorro e inversión opcionales.</p></div>
+        </div>
+        <div class="service-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s-7-4.35-9.5-9C.8 8.2 3 4 7 4c2 0 3.5 1.2 5 3 1.5-1.8 3-3 5-3 4 0 6.2 4.2 4.5 8-2.5 4.65-9.5 9-9.5 9z"/></svg>
+          <div><h4>Gastos médicos mayores</h4><p>Red hospitalaria amplia y cobertura ante enfermedades graves o accidentes.</p></div>
+        </div>
+        <div class="service-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6"/></svg>
+          <div><h4>Daños y seguro empresarial</h4><p>Protege bienes, inventario, responsabilidad civil e interrupción de negocio.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STATS ============ -->
+<section class="stats" id="nosotros">
+  <div class="wrap stats-grid">
+    <div class="stat"><div class="num">15</div><div class="lbl">años de experiencia en el sector</div></div>
+    <div class="stat"><div class="num">3,200+</div><div class="lbl">fianzas y pólizas activas</div></div>
+    <div class="stat"><div class="num">98%</div><div class="lbl">de clientes que renuevan con nosotros</div></div>
+    <div class="stat"><div class="num">24 h</div><div class="lbl">respuesta promedio a cotizaciones</div></div>
+  </div>
+</section>
+
+<!-- ============ PROCESO ============ -->
+<section id="proceso">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker">Artículo II · Procedimiento</span>
+      <h2>Cómo se contrata tu póliza</h2>
+      <p>Un proceso corto, documentado paso a paso, igual que cualquier trámite que valga la pena confiar.</p>
+    </div>
+    <div class="proceso-list">
+      <div class="proc-item">
+        <div class="art">ART. 1</div>
+        <div><h3>Cuéntanos qué necesitas</h3><p>Escribe al asesor digital o llena el formulario con el tipo de fianza o seguro que buscas.</p></div>
+      </div>
+      <div class="proc-item">
+        <div class="art">ART. 2</div>
+        <div><h3>Recibe tu cotización</h3><p>Un asesor certificado revisa tu caso y te envía opciones con costos y coberturas claras, sin letras chiquitas.</p></div>
+      </div>
+      <div class="proc-item">
+        <div class="art">ART. 3</div>
+        <div><h3>Envía tus documentos</h3><p>Compartes la documentación requerida de forma segura; te decimos exactamente qué hace falta.</p></div>
+      </div>
+      <div class="proc-item">
+        <div class="art">ART. 4</div>
+        <div><h3>Firma y queda protegido</h3><p>Emitimos tu póliza sellada y te la entregamos digital e impresa, lista para presentar.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="faq" id="preguntas">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker">Artículo III · Dudas frecuentes</span>
+      <h2>Preguntas frecuentes</h2>
+      <p>Si no encuentras tu respuesta aquí, el asesor digital está en la esquina inferior para ayudarte al instante.</p>
+    </div>
+    <div id="faq-list">
+      <div class="faq-item">
+        <button class="faq-q"><span>¿Qué diferencia hay entre una fianza y un seguro?</span><span class="plus"></span></button>
+        <div class="faq-a"><p>La fianza garantiza que tú o tu empresa cumplan una obligación frente a un tercero; si no se cumple, la afianzadora responde y luego te lo cobra a ti. El seguro protege tu propio patrimonio ante un riesgo (accidente, enfermedad, daño) y la aseguradora paga sin exigirte reembolso.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><span>¿Cuánto tarda la expedición de una póliza?</span><span class="plus"></span></button>
+        <div class="faq-a"><p>La mayoría de las fianzas administrativas y seguros personales se expiden entre 24 y 48 horas hábiles una vez recibida la documentación completa. Fianzas judiciales o de montos altos pueden tomar un poco más por el análisis de riesgo.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><span>¿Qué documentos necesito para cotizar?</span><span class="plus"></span></button>
+        <div class="faq-a"><p>Como punto de partida: identificación oficial, comprobante de domicilio y, según el producto, acta constitutiva, contrato a garantizar o información del bien a asegurar. El asesor te confirma la lista exacta según tu caso.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><span>¿Puedo cotizar sin ningún compromiso?</span><span class="plus"></span></button>
+        <div class="faq-a"><p>Sí. Cotizar no tiene costo ni te obliga a contratar. Te entregamos la propuesta por escrito para que la revises con calma.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><span>¿Trabajan con empresas y con personas físicas?</span><span class="plus"></span></button>
+        <div class="faq-a"><p>Sí, atendemos tanto personas físicas como empresas y constructoras, desde licitaciones públicas hasta seguros familiares.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><span>¿Qué pasa si necesito hacer válida mi fianza o seguro?</span><span class="plus"></span></button>
+        <div class="faq-a"><p>Nos contactas y te acompañamos durante todo el proceso de reclamación ante la afianzadora o aseguradora, dando seguimiento hasta la resolución.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACTO ============ -->
+<section id="contacto">
+  <div class="wrap contacto-grid">
+    <div>
+      <span class="kicker">Artículo IV · Contacto</span>
+      <h2 style="margin-bottom:20px; font-size:clamp(26px,3vw,36px);">Hablemos de tu póliza</h2>
+      <p style="color:var(--ink-soft); margin-bottom:36px; max-width:420px;">Completa el formulario o escríbenos directo. Un asesor certificado te responde el mismo día hábil.</p>
+      <div class="contact-info-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        <div><h4>Teléfono / WhatsApp</h4><p>(222) 123 4567 · Lunes a viernes, 9:00–19:00</p></div>
+      </div>
+      <div class="contact-info-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16v16H4z"/><path d="M4 6l8 7 8-7"/></svg>
+        <div><h4>Correo</h4><p>contacto@custodia-fs.mx</p></div>
+      </div>
+      <div class="contact-info-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <div><h4>Oficina</h4><p>Av. Reforma 1234, Col. Centro, Puebla, Pue.</p></div>
+      </div>
     </div>
 
-    <div class="menu-overlay" id="menuOverlay"></div>
-
-    <header class="site-header" id="mainHeader">
-        <a href="index.html" class="header-logo">VibetuHogar<span>.</span></a>
-        
-        <div class="nav-wrapper" id="navWrapper">
-            <nav class="header-nav">
-                <a href="index.html">Inicio</a>
-                <a href="propiedades.html">Propiedades</a>
-                <a href="servicios.html">Servicios</a>
-                <a href="nosotros.html">Nosotros</a>
-                <a href="contacto.html">Contacto</a>
-            </nav>
-            <div class="auth-buttons">
-                <a href="login.html" class="btn-login">Iniciar sesión</a>
-                <a href="registro.html" class="btn-register">Registrarme</a>
-            </div>
+    <div class="form-card">
+      <form id="contact-form" novalidate>
+        <h3 style="color:var(--paper); font-size:22px; margin-bottom:6px;">Solicita tu cotización</h3>
+        <p style="color:rgba(245,241,230,0.6); font-size:13.5px; margin:0 0 26px;">Todos los campos marcados son obligatorios.</p>
+        <div class="form-row">
+          <div class="field">
+            <label for="f-nombre">Nombre completo *</label>
+            <input id="f-nombre" name="nombre" type="text" placeholder="Tu nombre" required>
+          </div>
+          <div class="field">
+            <label for="f-empresa">Empresa (opcional)</label>
+            <input id="f-empresa" name="empresa" type="text" placeholder="Nombre de tu empresa">
+          </div>
         </div>
-
-        <div class="menu-toggle" id="mobileMenuBtn">
-            <span></span><span></span><span></span>
+        <div class="form-row">
+          <div class="field">
+            <label for="f-tel">Teléfono *</label>
+            <input id="f-tel" name="telefono" type="tel" placeholder="222 123 4567" required>
+          </div>
+          <div class="field">
+            <label for="f-mail">Correo *</label>
+            <input id="f-mail" name="correo" type="email" placeholder="tu@correo.com" required>
+          </div>
         </div>
-    </header>
-
-    <main>
-        <section class="hero-section">
-            <div class="hero-animated-bg" id="heroBg"></div>
-
-            <div class="hero-content">
-                <h1 class="hero-title fade-up-element">Encuentra el lugar perfecto<br>para tu nueva vida</h1>
-                <p class="hero-subtitle fade-up-element delay-1">Explora las mejores propiedades y haz que tu hogar vibre con tu estilo.</p>
-
-                <form action="resultados.html" method="GET" class="fade-up-element delay-2">
-                    <div class="main-search-bar">
-                        <div class="search-group">
-                            <span class="search-icon">📍</span>
-                            <input type="text" class="search-input" name="ubicacion" placeholder="Ej. Amozoc, Huaquechula, Centro...">
-                        </div>
-                        <div class="search-group">
-                            <span class="search-icon">🏠</span>
-                            <select class="search-select" name="tipo">
-                                <option value="" disabled selected>Tipo de propiedad</option>
-                                <option value="casa">Casa</option>
-                                <option value="departamento">Departamento</option>
-                                <option value="terreno">Terreno</option>
-                                <option value="local">Local Comercial</option>
-                            </select>
-                        </div>
-                        <button type="submit" class="btn-search">Buscar</button>
-                    </div>
-                </form>
-
-                <a href="mapa.html" class="btn-map fade-up-element delay-3">
-                    🗺️ Explorar propiedades en el mapa interactivo
-                </a>
-            </div>
-        </section>
-
-        <section style="padding: 80px 5%; max-width: 1200px; margin: 0 auto;">
-            <h2 class="fade-up-element" style="color: var(--vh-dark-blue); font-size: 2rem; text-align: center; margin-bottom: 40px;">Propiedades Destacadas</h2>
-            
-            <div class="properties-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
-                <div class="fade-up-element delay-1" style="background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
-                    <div style="height: 200px; background: #e1e8ed;"></div>
-                    <div style="padding: 20px;">
-                        <h3 style="color: var(--vh-dark-blue);">Casa Residencial</h3>
-                        <p style="color: #777;">📍 Zona Centro</p>
-                        <p style="color: var(--vh-teal); font-weight: 700; font-size: 1.2rem; margin-top: 15px;">$2,500,000 MXN</p>
-                    </div>
-                </div>
-                <div class="fade-up-element delay-2" style="background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
-                    <div style="height: 200px; background: #e1e8ed;"></div>
-                    <div style="padding: 20px;">
-                        <h3 style="color: var(--vh-dark-blue);">Departamento Moderno</h3>
-                        <p style="color: #777;">📍 Zona Norte</p>
-                        <p style="color: var(--vh-teal); font-weight: 700; font-size: 1.2rem; margin-top: 15px;">$1,850,000 MXN</p>
-                    </div>
-                </div>
-                <div class="fade-up-element delay-3" style="background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
-                    <div style="height: 200px; background: #e1e8ed;"></div>
-                    <div style="padding: 20px;">
-                        <h3 style="color: var(--vh-dark-blue);">Terreno de Inversión</h3>
-                        <p style="color: #777;">📍 Zona Sur</p>
-                        <p style="color: var(--vh-teal); font-weight: 700; font-size: 1.2rem; margin-top: 15px;">$900,000 MXN</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer class="site-footer">
-        <div class="footer-grid">
-            <div class="footer-col">
-                <h3>VibetuHogar.</h3>
-                <p>No vendemos casas, cambiamos vidas.</p>
-                <p>Encuentra el espacio perfecto que inspire tu día a día y haz que tu hogar vibre con tu estilo.</p>
-            </div>
-
-            <div class="footer-col">
-                <h3 style="color: var(--vh-white); font-size: 1.1rem;">Enlaces Rápidos</h3>
-                <ul class="footer-links">
-                    <li><a href="propiedades.html">Ver Catálogo de Propiedades</a></li>
-                    <li><a href="servicios.html">Asesoría Inmobiliaria</a></li>
-                    <li><a href="registro.html">Crear una cuenta</a></li>
-                    <li><a href="#">Términos y Condiciones</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-col">
-                <h3 style="color: var(--vh-white); font-size: 1.1rem;">Contacto</h3>
-                <p>📍 Puebla, México</p>
-                <p>📞 +52 (222) 123-4567</p>
-                <p>✉️ contacto@vibetuhogar.com</p>
-            </div>
+        <div class="field">
+          <label for="f-tipo">Tipo de servicio *</label>
+          <select id="f-tipo" name="tipo" required>
+            <option value="">Selecciona una opción</option>
+            <option>Fianza de cumplimiento</option>
+            <option>Fianza judicial</option>
+            <option>Fianza administrativa</option>
+            <option>Seguro de auto</option>
+            <option>Seguro de vida</option>
+            <option>Gastos médicos mayores</option>
+            <option>Seguro empresarial / daños</option>
+            <option>Otro / no estoy seguro</option>
+          </select>
         </div>
-
-        <div class="footer-bottom">
-            &copy; <span id="year"></span> VibetuHogar. Todos los derechos reservados.
+        <div class="field">
+          <label for="f-msg">Cuéntanos brevemente qué necesitas</label>
+          <textarea id="f-msg" name="mensaje" placeholder="Monto aproximado, plazos, o cualquier detalle que ayude a tu asesor..."></textarea>
         </div>
-    </footer>
+        <div class="checkline">
+          <input type="checkbox" id="f-priv" name="privacidad" required>
+          <label for="f-priv">He leído y acepto el aviso de privacidad. Autorizo que CUSTODIA me contacte para dar seguimiento a esta solicitud.</label>
+        </div>
+        <div class="form-error" id="form-error">Por favor completa los campos obligatorios antes de enviar.</div>
+        <button type="submit" class="btn btn-brass submit-btn">Enviar solicitud</button>
+      </form>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            
-            // 0. LÓGICA DEL PRELOADER
-            const LOADING_DURATION = 4200; // Tiempo para que se dibuje el logo
-            const preloader = document.getElementById('preloader');
-            const heroBg = document.getElementById('heroBg');
+      <div class="success-stamp" id="success-stamp">
+        <div class="stamp-mark">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 6L9 17l-5-5"/></svg>
+        </div>
+        <h3>Solicitud recibida</h3>
+        <p>Un asesor certificado revisará tu caso y te contactará en menos de 24 horas hábiles.</p>
+        <p class="ref" id="ref-code"></p>
+      </div>
+    </div>
+  </div>
+</section>
 
-            setTimeout(() => {
-                preloader.classList.add('hidden');
-                document.body.classList.remove('no-scroll'); // Restauramos el scroll
-                if(window.innerWidth > 992 && heroBg) {
-                    heroBg.classList.add('visible'); // Mostramos el fondo del hero suavemente
-                }
-            }, LOADING_DURATION);
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">
+          <svg width="28" height="28" viewBox="0 0 40 40" fill="none">
+            <circle cx="20" cy="20" r="19" stroke="#C79A56" stroke-width="1.4"/>
+            <circle cx="20" cy="20" r="12.5" fill="#C79A56"/>
+            <path d="M14 20.5L18 24.5L26.5 15.5" stroke="#10233A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          CUSTODIA
+        </div>
+        <p class="footer-desc">Fianzas y seguros con respaldo institucional. Protegemos compromisos y patrimonios desde hace más de 15 años.</p>
+      </div>
+      <div>
+        <h5>Fianzas</h5>
+        <ul>
+          <li><a href="#servicios">Cumplimiento</a></li>
+          <li><a href="#servicios">Judiciales</a></li>
+          <li><a href="#servicios">Administrativas</a></li>
+          <li><a href="#servicios">De crédito</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Seguros</h5>
+        <ul>
+          <li><a href="#servicios">Auto</a></li>
+          <li><a href="#servicios">Vida</a></li>
+          <li><a href="#servicios">Gastos médicos</a></li>
+          <li><a href="#servicios">Empresarial</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Empresa</h5>
+        <ul>
+          <li><a href="#nosotros">Nosotros</a></li>
+          <li><a href="#proceso">Proceso</a></li>
+          <li><a href="#preguntas">Preguntas</a></li>
+          <li><a href="#contacto">Contacto</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 CUSTODIA Fianzas &amp; Seguros. Todos los derechos reservados.</span>
+      <span>Aviso de privacidad · Términos y condiciones</span>
+    </div>
+  </div>
+</footer>
 
-            // 1. AÑO AUTOMÁTICO EN FOOTER (Remplaza el PHP)
-            document.getElementById('year').textContent = new Date().getFullYear();
+<!-- ============ CHATBOT ============ -->
+<button id="chat-toggle" onclick="openChat()" aria-label="Abrir asesor digital">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+  <span class="ping"></span>
+</button>
 
-            // 2. LÓGICA DEL MENÚ MÓVIL (Hamburguesa)
-            const mobileBtn = document.getElementById('mobileMenuBtn');
-            const navWrapper = document.getElementById('navWrapper');
-            const overlay = document.getElementById('menuOverlay');
+<div id="chat-panel">
+  <div class="chat-head">
+    <div class="avatar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#10233A" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+    </div>
+    <div class="who">
+      <div class="name">Asesor Digital</div>
+      <div class="status">En línea</div>
+    </div>
+    <button onclick="closeChat()" aria-label="Cerrar chat">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <div class="chat-body" id="chat-body"></div>
+  <form class="chat-input" id="chat-form">
+    <input id="chat-text" type="text" placeholder="Escribe tu pregunta..." autocomplete="off">
+    <button type="submit" aria-label="Enviar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+    </button>
+  </form>
+</div>
 
-            function toggleMenu() {
-                mobileBtn.classList.toggle('active');
-                navWrapper.classList.toggle('active');
-                overlay.classList.toggle('active');
-                // Bloquea el scroll del fondo cuando el menú está abierto
-                if(!preloader.classList.contains('hidden')) return; // No hacer nada si carga
-                document.body.style.overflow = navWrapper.classList.contains('active') ? 'hidden' : 'auto';
-            }
+<script>
+/* ---------- reveal on scroll ---------- */
+const revealEls = document.querySelectorAll('.hero-cta, .trust-row, .service-col, .stat, .proc-item, .faq-item');
+revealEls.forEach(el=>el.classList.add('reveal'));
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+},{threshold:0.15});
+revealEls.forEach(el=>io.observe(el));
 
-            mobileBtn.addEventListener('click', toggleMenu);
-            overlay.addEventListener('click', toggleMenu);
+/* ---------- FAQ accordion ---------- */
+document.querySelectorAll('.faq-item').forEach(item=>{
+  const q = item.querySelector('.faq-q');
+  const a = item.querySelector('.faq-a');
+  q.addEventListener('click', ()=>{
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(o=>{
+      o.classList.remove('open');
+      o.querySelector('.faq-a').style.maxHeight = null;
+    });
+    if(!isOpen){
+      item.classList.add('open');
+      a.style.maxHeight = a.scrollHeight + 'px';
+    }
+  });
+});
 
-            // 3. LÓGICA DE ANIMACIONES AL HACER SCROLL O RECARGAR
-            const observerOptions = {
-                root: null,
-                rootMargin: '0px',
-                threshold: 0.15
-            };
+/* ---------- Contact form ---------- */
+const form = document.getElementById('contact-form');
+const errorBox = document.getElementById('form-error');
+form.addEventListener('submit', (e)=>{
+  e.preventDefault();
+  const required = form.querySelectorAll('[required]');
+  let valid = true;
+  required.forEach(f=>{
+    if(f.type === 'checkbox' ? !f.checked : !f.value.trim()) valid = false;
+  });
+  const emailField = document.getElementById('f-mail');
+  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailField.value.trim());
+  if(!emailOk) valid = false;
 
-            const observer = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('is-visible');
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, observerOptions);
+  if(!valid){
+    errorBox.style.display = 'block';
+    return;
+  }
+  errorBox.style.display = 'none';
+  form.style.display = 'none';
+  const ref = 'CUS-' + Math.floor(100000 + Math.random()*899999);
+  document.getElementById('ref-code').textContent = 'Folio de referencia: ' + ref;
+  document.getElementById('success-stamp').classList.add('show');
+});
 
-            document.querySelectorAll('.fade-up-element').forEach(el => {
-                observer.observe(el);
-            });
+/* ---------- Chatbot ---------- */
+const chatPanel = document.getElementById('chat-panel');
+const chatBody = document.getElementById('chat-body');
+const chatForm = document.getElementById('chat-form');
+const chatText = document.getElementById('chat-text');
+let chatStarted = false;
 
-            // 4. GENERADOR DE FIGURAS DEL FONDO (Solo en Hero)
-            if(window.innerWidth > 992) {
-                const bgContainer = document.getElementById('heroBg');
-                const shapeTypes = ['diamond', 'ring', 'hexagon'];
-                for (let i = 0; i < 20; i++) {
-                    const shape = document.createElement('div');
-                    shape.className = `shape ${shapeTypes[Math.floor(Math.random() * shapeTypes.length)]}`;
-                    shape.style.left = `${Math.random() * 100}%`;
-                    shape.style.top = `${Math.random() * 100}%`;
-                    shape.style.animationDelay = `${Math.random() * 10}s`;
-                    bgContainer.appendChild(shape);
-                }
-            }
+function openChat(){
+  chatPanel.classList.add('open');
+  if(!chatStarted){ startChat(); chatStarted = true; }
+  setTimeout(()=>chatText.focus(), 200);
+}
+function closeChat(){ chatPanel.classList.remove('open'); }
 
-            // 5. EFECTO SCROLL EN HEADER
-            window.addEventListener('scroll', () => {
-                const header = document.getElementById('mainHeader');
-                if (window.scrollY > 40) {
-                    header.classList.add('scrolled');
-                } else {
-                    header.classList.remove('scrolled');
-                }
-            });
-        });
-    </script>
+function addMsg(text, who){
+  const div = document.createElement('div');
+  div.className = 'msg ' + who;
+  div.textContent = text;
+  chatBody.appendChild(div);
+  chatBody.scrollTop = chatBody.scrollHeight;
+  return div;
+}
+
+function addChips(options){
+  const wrap = document.createElement('div');
+  wrap.className = 'chips';
+  options.forEach(opt=>{
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'chip';
+    b.textContent = opt;
+    b.addEventListener('click', ()=>{
+      addMsg(opt, 'user');
+      wrap.remove();
+      respond(opt);
+    });
+    wrap.appendChild(b);
+  });
+  chatBody.appendChild(wrap);
+  chatBody.scrollTop = chatBody.scrollHeight;
+}
+
+function showTyping(){
+  const t = document.createElement('div');
+  t.className = 'typing';
+  t.id = 'typing-indicator';
+  t.innerHTML = '<span></span><span></span><span></span>';
+  chatBody.appendChild(t);
+  chatBody.scrollTop = chatBody.scrollHeight;
+}
+function hideTyping(){
+  const t = document.getElementById('typing-indicator');
+  if(t) t.remove();
+}
+
+const mainMenu = ['Tipos de fianzas','Tipos de seguros','Cómo cotizar','Documentos requeridos','Tiempos de entrega','Hablar con un asesor humano'];
+
+function startChat(){
+  showTyping();
+  setTimeout(()=>{
+    hideTyping();
+    addMsg('Hola, soy el Asesor Digital de CUSTODIA. Puedo resolver dudas sobre fianzas, seguros, tiempos y documentos. ¿En qué te ayudo?', 'bot');
+    addChips(mainMenu);
+  }, 700);
+}
+
+function normalize(str){
+  return str.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+}
+
+function botReply(raw){
+  const t = normalize(raw);
+
+  if(t.includes('tipos de fianza') || (t.includes('fianza') && (t.includes('tipo')||t.includes('cuales')))){
+    return {text:'Manejamos cuatro tipos principales: de cumplimiento, judiciales, administrativas (anticipo, vicios ocultos, sostenimiento de oferta) y de crédito. ¿Sobre cuál quieres saber más?', chips:['Fianza de cumplimiento','Fianza judicial','Fianza administrativa','Volver al menú']};
+  }
+  if(t.includes('cumplimiento')){
+    return {text:'La fianza de cumplimiento garantiza que un contrato se ejecute como se pactó, muy usada en obra pública y privada. Se calcula sobre el monto del contrato.', chips:['Cómo cotizar','Volver al menú']};
+  }
+  if(t.includes('judicial')){
+    return {text:'Las fianzas judiciales respaldan procesos legales: apelaciones, embargos o libertad provisional. El tiempo de expedición depende del análisis del caso.', chips:['Tiempos de entrega','Volver al menú']};
+  }
+  if(t.includes('administrativa')){
+    return {text:'Cubren anticipo, vicios ocultos y sostenimiento de oferta, principalmente en licitaciones y trámites de gobierno.', chips:['Documentos requeridos','Volver al menú']};
+  }
+  if(t.includes('tipos de seguro') || (t.includes('seguro') && (t.includes('tipo')||t.includes('cuales')))){
+    return {text:'Ofrecemos seguro de auto, de vida, gastos médicos mayores y seguro empresarial o de daños. ¿Cuál te interesa?', chips:['Seguro de auto','Seguro de vida','Gastos médicos','Volver al menú']};
+  }
+  if(t.includes('auto') || t.includes('coche') || t.includes('carro')){
+    return {text:'El seguro de auto va desde responsabilidad civil hasta cobertura amplia, con asistencia vial 24/7. La prima depende del modelo, uso y suma asegurada.', chips:['Cómo cotizar','Volver al menú']};
+  }
+  if(t.includes('vida')){
+    return {text:'El seguro de vida da protección económica a tu familia y puede incluir un componente de ahorro o inversión. Se cotiza según edad, suma asegurada y salud declarada.', chips:['Cómo cotizar','Volver al menú']};
+  }
+  if(t.includes('gastos medicos') || t.includes('medic')){
+    return {text:'Gastos médicos mayores cubre hospitalización, cirugías y enfermedades graves con una red hospitalaria amplia. Podemos armar un plan individual o familiar.', chips:['Cómo cotizar','Volver al menú']};
+  }
+  if(t.includes('empresarial') || t.includes('dano') || t.includes('negocio')){
+    return {text:'El seguro empresarial protege inventario, instalaciones, responsabilidad civil e incluso interrupción de negocio ante un siniestro.', chips:['Cómo cotizar','Volver al menú']};
+  }
+  if(t.includes('cotiza') || t.includes('precio') || t.includes('costo') || t.includes('cuanto cuesta')){
+    return {text:'Cotizar no tiene costo. Solo llena el formulario más abajo con el tipo de servicio que buscas, o dime aquí mismo qué necesitas y un asesor certificado te contacta el mismo día hábil.', chips:['Ir al formulario','Documentos requeridos','Volver al menú']};
+  }
+  if(t.includes('formulario')){
+    closeChat();
+    document.getElementById('contacto').scrollIntoView({behavior:'smooth'});
+    return {text:''};
+  }
+  if(t.includes('documento')){
+    return {text:'Por lo general se piden: identificación oficial, comprobante de domicilio y, según el producto, acta constitutiva o el contrato a garantizar. Tu asesor te confirma la lista exacta al cotizar.', chips:['Tiempos de entrega','Cómo cotizar','Volver al menú']};
+  }
+  if(t.includes('tiempo') || t.includes('demora') || t.includes('tarda') || t.includes('entrega')){
+    return {text:'La mayoría de las fianzas administrativas y seguros personales se expiden en 24 a 48 horas hábiles con documentación completa. Fianzas judiciales o de montos altos pueden tomar un poco más.', chips:['Documentos requeridos','Volver al menú']};
+  }
+  if(t.includes('horario')){
+    return {text:'Atendemos de lunes a viernes de 9:00 a 19:00 horas. Fuera de ese horario puedes dejar tu mensaje aquí o en el formulario y te contactamos al siguiente día hábil.', chips:['Volver al menú']};
+  }
+  if(t.includes('telefono') || t.includes('llamar') || t.includes('whatsapp')){
+    return {text:'Puedes llamarnos o escribirnos al (222) 123 4567, de lunes a viernes de 9:00 a 19:00 horas.', chips:['Volver al menú']};
+  }
+  if(t.includes('humano') || t.includes('asesor') || t.includes('persona')){
+    return {text:'Con gusto. Deja tus datos en el formulario de contacto y un asesor certificado te llama directamente, o marca al (222) 123 4567 en horario de oficina.', chips:['Ir al formulario','Volver al menú']};
+  }
+  if(t.includes('menu') || t.includes('volver')){
+    return {text:'Claro, ¿sobre qué más quieres saber?', chips:mainMenu};
+  }
+  if(t.includes('gracias')){
+    return {text:'Con gusto. Aquí estoy si surge otra duda.', chips:['Volver al menú']};
+  }
+  return {text:'No estoy seguro de haber entendido bien eso. Puedo ayudarte con tipos de fianzas, tipos de seguros, cotización, documentos, tiempos de entrega o ponerte con un asesor humano.', chips:mainMenu};
+}
+
+function respond(userText){
+  showTyping();
+  setTimeout(()=>{
+    hideTyping();
+    const r = botReply(userText);
+    if(r.text) addMsg(r.text, 'bot');
+    if(r.chips) addChips(r.chips);
+  }, 600 + Math.random()*400);
+}
+
+chatForm.addEventListener('submit', (e)=>{
+  e.preventDefault();
+  const val = chatText.value.trim();
+  if(!val) return;
+  addMsg(val, 'user');
+  chatText.value = '';
+  respond(val);
+});
+</script>
+
 </body>
 </html>
